@@ -2,12 +2,6 @@ var Red = Red || {};
 
 Red.Factory = (function ()
 {
-    var Texture = PIXI.Texture;
-    var Sprite = PIXI.Sprite;
-    var Text = PIXI.Text;
-    var Container = PIXI.Container;
-    var Action = Red.ActionData;
-
     function Factory()
     {
         this.game = null;
@@ -26,15 +20,15 @@ Red.Factory = (function ()
         sprite : function (x, y, tex, container)
         {
             var texture;
-            if( tex instanceof Texture)
+            if( tex instanceof PIXI.Texture)
             {
                 texture = tex;
             }
             else
             {
-                texture = Texture.fromImage(tex);
+                texture = PIXI.Texture.fromImage(tex);
             }
-            var sprite = new Sprite(texture);
+            var sprite = new PIXI.Sprite(texture);
 
             if( x )
             {
@@ -48,7 +42,7 @@ Red.Factory = (function ()
 
             if( container)
             {
-                if( container instanceof Container)
+                if( container instanceof PIXI.Container)
                 {
                     container.addChild( sprite );
                 }
@@ -75,7 +69,7 @@ Red.Factory = (function ()
 
             if( container !== null && container !== undefined )
             {
-                if( container instanceof Container)
+                if( container instanceof PIXI.Container)
                 {
                     container.addChild( text );
                 }
@@ -94,16 +88,16 @@ Red.Factory = (function ()
         button : function (x, y, normalTex, overTex, pushTex, action, container, sprite)
         {
             var texture;
-            if( normalTex instanceof Texture)
+            if( normalTex instanceof PIXI.Texture)
             {
                 texture = normalTex;
             }
             else
             {
-                texture = Texture.fromImage(normalTex);
+                texture = PIXI.Texture.fromImage(normalTex);
             }
 
-            var sprite = sprite || new Sprite(texture);
+            var sprite = sprite || new PIXI.Sprite(texture);
 
             if( x )
             {
@@ -117,7 +111,7 @@ Red.Factory = (function ()
 
             if( container)
             {
-                if( container instanceof Container)
+                if( container instanceof PIXI.Container)
                 {
                     container.addChild( sprite );
                 }
@@ -137,16 +131,16 @@ Red.Factory = (function ()
         button_tint : function (x, y, tex , normalColor, overColor, pushColor, action, container, sprite)
         {
             var texture;
-            if( tex instanceof Texture)
+            if( tex instanceof PIXI.Texture)
             {
                 texture = tex;
             }
             else
             {
-                texture = Texture.fromImage(tex);
+                texture = PIXI.Texture.fromImage(tex);
             }
 
-            var sprite = sprite || new Sprite(texture);
+            var sprite = sprite || new PIXI.Sprite(texture);
 
             if( x )
             {
@@ -160,7 +154,7 @@ Red.Factory = (function ()
 
             if( container)
             {
-                if( container instanceof Container)
+                if( container instanceof PIXI.Container)
                 {
                     container.addChild( sprite );
                 }
@@ -179,7 +173,7 @@ Red.Factory = (function ()
 
         container : function (key, isFollowCamera)
         {
-            var container = new Container();
+            var container = new PIXI.Container();
             if( !isFollowCamera )
             {
                 this.game.world.worldContainer.addChild( container );
@@ -202,7 +196,7 @@ Red.Factory = (function ()
             {
                 isFixed = false;
             }
-            var action = new Action( maxTime, action, finishCall );
+            var action = new Red.ActionData( maxTime, action, finishCall );
 
             if( isFixed )
             {
