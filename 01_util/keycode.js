@@ -29,5 +29,8 @@ Red.KeyCode = (function ()
     KeyCode.Num9 = 56;
 
     KeyCode.Enter = 13;
+    KeyCode.Sapce = 32;
+
+
     return KeyCode;
 })();
