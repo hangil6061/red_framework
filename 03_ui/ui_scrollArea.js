@@ -127,14 +127,17 @@ Red.ScrollArea = (function ()
                 this.scrollArea.y = this.scrollRect.top;
             }
 
+            this.moveDelta = (this.scrollArea.height);
             this._updateBarRect();
         },
 
         _onMouseWheel : function (e)
         {
+            var delta = e.deltaY || -e.wheelDelta;
+
             if(this.isMouseOver && this.scrollArea.height > this.scrollRect.height)
             {
-                if( e.deltaY > 0 )
+                if( delta > 0 )
                 {
                     //아래로
 
@@ -148,7 +151,6 @@ Red.ScrollArea = (function ()
                 else
                 {
                     //위로
-
                     this.scrollArea.y += this.moveDelta;
                     if( this.scrollArea.y >  this.scrollRect.top  )
                     {

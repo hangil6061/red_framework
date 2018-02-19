@@ -17,11 +17,15 @@ Red.Button = (function ()
         this.onOffCall = null;
 
         this.sprite
+        .on('touchstart', this._onTouchStart.bind(this)  )
+        .on('touchmove', this._onTouchMove.bind(this)  )
         .on('pointerdown', this._onButtonDown.bind(this)  )
         .on('pointerup', this._onButtonUp.bind(this))
         .on('pointerupoutside', this._onButtonUp.bind(this))
         .on('pointerover', this._onButtonOver.bind(this))
         .on('pointerout', this._onButtonOut.bind(this));
+
+        this._tempPoint = {x:0, y:0};
 
         this.buttonAction = buttonAction || null;
 
@@ -156,6 +160,52 @@ Red.Button = (function ()
             this.sprite.destroy();
         },
 
+        _onTouchStart : function (e)
+        {
+            if( !this.isOn /*|| !this.isOver*/) return;
+
+            this.isdown = true;
+            this._setTexture( Button.PUSH );
+            if(this.pushCall)
+            {
+                this.pushCall();
+            }
+        },
+
+        _onTouchMove : function (e)
+        {
+            if(!this.isdown) return;
+
+            var hit = false;
+            var point = e.data.global;
+            if (this.sprite.hitArea)
+            {
+                this.sprite.worldTransform.applyInverse(point, this._tempPoint);
+                if (this.sprite.hitArea.contains(this._tempPoint.x, this._tempPoint.y))
+                {
+                    hit = true;
+                }
+            }
+            else if (this.sprite.containsPoint)
+            {
+                if (this.sprite.containsPoint(point)) {
+                    hit = true;
+                }
+            }
+
+            if(!hit)
+            {
+                this.isOver = false;
+                this.isdown = false;
+                this._setTexture( Button.NORMAL );
+                if(this.normalCall)
+                {
+                    this.normalCall();
+                }
+
+                this.outCall && this.outCall();
+            }
+        },
 
         _onButtonDown : function (e)
         {
@@ -229,6 +279,11 @@ Red.Button = (function ()
             }
 
             this.outCall && this.outCall();
+        },
+
+        setTexture : function (state, texture)
+        {
+            this.stateTextures[ state ] = texture;
         },
 
         _setTexture : function ( state )

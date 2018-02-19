@@ -133,95 +133,29 @@ Red.BitmapText2 = (function ()
 
         //Red modify
         // if( this.dontWordMode  )
-        // {
-        //     for (var i = 0; i < this.text.length; i++) {
-        //         var charCode = this.text.charCodeAt(i);
-        //
-        //         lastSpace = i;
-        //         lastSpaceWidth = lastLineWidth;
-        //
-        //         if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
-        //             //if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
-        //             lineWidths.push(lastLineWidth);
-        //             maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
-        //             line++;
-        //
-        //             pos.x = 0;
-        //             pos.y += lineHeight
-        //             //crtMaxScale = 0;
-        //             prevCharCode = null;
-        //             continue;
-        //         }
-        //
-        //         if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth) {
-        //             PIXI.utils.removeItems(chars, lastSpace - spacesRemoved, i - lastSpace);
-        //             i = lastSpace;
-        //             lastSpace = -1;
-        //             ++spacesRemoved;
-        //
-        //             lineWidths.push(lastSpaceWidth);
-        //             maxLineWidth = Math.max(maxLineWidth, lastSpaceWidth);
-        //             line++;
-        //
-        //             pos.x = 0;
-        //             pos.y += lineHeight;  //Red modify
-        //             //crtMaxScale = 0;
-        //             prevCharCode = null;
-        //             //continue;
-        //         }
-        //
-        //         var charData = data.chars[charCode];
-        //         var info = this.infos[i];
-        //
-        //         if (!charData) {
-        //             continue;
-        //         }
-        //
-        //         if (prevCharCode && charData.kerning[prevCharCode]) {
-        //             pos.x += charData.kerning[prevCharCode];
-        //         }
-        //
-        //         info.scale = info.scale || 1;
-        //         chars.push({
-        //             texture: charData.texture,
-        //             line: line,
-        //             charCode: charCode,
-        //             position: new PIXI.Point(pos.x + charData.xOffset*info.scale,
-        //                 pos.y + charData.yOffset * info.scale
-        //                 + halfLineHeight - (halfLineHeight * info.scale)),
-        //             color : info.color,
-        //             scale : info.scale
-        //         });
-        //         lastLineWidth = pos.x + (charData.texture.width + charData.xOffset) * info.scale;
-        //         pos.x += charData.xAdvance * info.scale;
-        //         maxLineHeight = Math.max(maxLineHeight, (charData.yOffset + charData.texture.height));
-        //         //crtMaxScale = Math.max(crtMaxScale, info.scale );
-        //         prevCharCode = charCode;
-        //     }
-        // }
-        // else
         {
             for (var i = 0; i < this.text.length; i++) {
                 var charCode = this.text.charCodeAt(i);
 
-                if (/(\s)/.test(this.text.charAt(i))) {
-                    lastSpace = i;
-                    lastSpaceWidth = lastLineWidth;
-                }
-                //if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
-                if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
+                lastSpace = i;
+                lastSpaceWidth = lastLineWidth;
+
+                if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
+                    //if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
                     lineWidths.push(lastLineWidth);
                     maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
                     line++;
 
                     pos.x = 0;
-                    pos.y += lineHeight;
-                    prevCharCode = null;
+                    pos.y += lineHeight
                     //crtMaxScale = 0;
+                    prevCharCode = null;
                     continue;
                 }
 
-                if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth) {
+                if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth
+                    && charCode !== 46 && charCode !== 44 && charCode !== 32
+                ) {
                     PIXI.utils.removeItems(chars, lastSpace - spacesRemoved, i - lastSpace);
                     i = lastSpace;
                     lastSpace = -1;
@@ -232,10 +166,10 @@ Red.BitmapText2 = (function ()
                     line++;
 
                     pos.x = 0;
-                    pos.y += lineHeight; //Red modify
-                    prevCharCode = null;
+                    pos.y += lineHeight;  //Red modify
                     //crtMaxScale = 0;
-                    continue;
+                    prevCharCode = null;
+                    //continue;
                 }
 
                 var charData = data.chars[charCode];
@@ -262,11 +196,79 @@ Red.BitmapText2 = (function ()
                 });
                 lastLineWidth = pos.x + (charData.texture.width + charData.xOffset) * info.scale;
                 pos.x += charData.xAdvance * info.scale;
-                maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
-                //crtMaxScale = Math.max(crtMaxScale,  info.scale );
+                maxLineHeight = Math.max(maxLineHeight, (charData.yOffset + charData.texture.height));
+                //crtMaxScale = Math.max(crtMaxScale, info.scale );
                 prevCharCode = charCode;
             }
         }
+        // else
+        // {
+        //     for (var i = 0; i < this.text.length; i++) {
+        //         var charCode = this.text.charCodeAt(i);
+        //
+        //         if (/(\s)/.test(this.text.charAt(i))) {
+        //             lastSpace = i;
+        //             lastSpaceWidth = lastLineWidth;
+        //         }
+        //         //if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
+        //         if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
+        //             lineWidths.push(lastLineWidth);
+        //             maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
+        //             line++;
+        //
+        //             pos.x = 0;
+        //             pos.y += lineHeight;
+        //             prevCharCode = null;
+        //             //crtMaxScale = 0;
+        //             continue;
+        //         }
+        //
+        //         if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth) {
+        //             PIXI.utils.removeItems(chars, lastSpace - spacesRemoved, i - lastSpace);
+        //             i = lastSpace;
+        //             lastSpace = -1;
+        //             ++spacesRemoved;
+        //
+        //             lineWidths.push(lastSpaceWidth);
+        //             maxLineWidth = Math.max(maxLineWidth, lastSpaceWidth);
+        //             line++;
+        //
+        //             pos.x = 0;
+        //             pos.y += lineHeight; //Red modify
+        //             prevCharCode = null;
+        //             //crtMaxScale = 0;
+        //             continue;
+        //         }
+        //
+        //         var charData = data.chars[charCode];
+        //         var info = this.infos[i];
+        //
+        //         if (!charData) {
+        //             continue;
+        //         }
+        //
+        //         if (prevCharCode && charData.kerning[prevCharCode]) {
+        //             pos.x += charData.kerning[prevCharCode];
+        //         }
+        //
+        //         info.scale = info.scale || 1;
+        //         chars.push({
+        //             texture: charData.texture,
+        //             line: line,
+        //             charCode: charCode,
+        //             position: new PIXI.Point(pos.x + charData.xOffset*info.scale,
+        //                 pos.y + charData.yOffset * info.scale
+        //                 + halfLineHeight - (halfLineHeight * info.scale)),
+        //             color : info.color,
+        //             scale : info.scale
+        //         });
+        //         lastLineWidth = pos.x + (charData.texture.width + charData.xOffset) * info.scale;
+        //         pos.x += charData.xAdvance * info.scale;
+        //         maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
+        //         //crtMaxScale = Math.max(crtMaxScale,  info.scale );
+        //         prevCharCode = charCode;
+        //     }
+        //}
 
         lineWidths.push(lastLineWidth);
         maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
@@ -352,86 +354,28 @@ Red.BitmapText2 = (function ()
 
         //Red modify
         // if( this.dontWordMode  )
-        // {
-        //     for (var i = 0; i < this.text.length; i++) {
-        //         var charCode = this.text.charCodeAt(i);
-        //
-        //         lastSpace = i;
-        //         lastSpaceWidth = lastLineWidth;
-        //
-        //         if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
-        //             //if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
-        //             lineWidths.push(lastLineWidth);
-        //             maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
-        //             line++;
-        //
-        //             pos.x = 0;
-        //             pos.y += this.lineHeight || data.lineHeight;
-        //             prevCharCode = null;
-        //             continue;
-        //         }
-        //
-        //         if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth) {
-        //             PIXI.utils.removeItems(chars, lastSpace - spacesRemoved, i - lastSpace);
-        //             i = lastSpace;
-        //             lastSpace = -1;
-        //             ++spacesRemoved;
-        //
-        //             lineWidths.push(lastSpaceWidth);
-        //             maxLineWidth = Math.max(maxLineWidth, lastSpaceWidth);
-        //             line++;
-        //
-        //             pos.x = 0;
-        //             pos.y += this.lineHeight || data.lineHeight;    //Red modify
-        //             prevCharCode = null;
-        //             //continue;
-        //         }
-        //
-        //
-        //         var charData = data.chars[charCode];
-        //
-        //         if (!charData) {
-        //             continue;
-        //         }
-        //
-        //         if (prevCharCode && charData.kerning[prevCharCode]) {
-        //             pos.x += charData.kerning[prevCharCode];
-        //         }
-        //
-        //         chars.push({
-        //             texture: charData.texture,
-        //             line: line,
-        //             charCode: charCode,
-        //             position: new PIXI.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)
-        //         });
-        //         lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
-        //         pos.x += charData.xAdvance;
-        //         maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
-        //         prevCharCode = charCode;
-        //     }
-        // }
-        // else
         {
             for (var i = 0; i < this.text.length; i++) {
                 var charCode = this.text.charCodeAt(i);
 
-                if (/(\s)/.test(this.text.charAt(i))) {
-                    lastSpace = i;
-                    lastSpaceWidth = lastLineWidth;
-                }
-                //if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
-                if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
+                lastSpace = i;
+                lastSpaceWidth = lastLineWidth;
+
+                if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
+                    //if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
                     lineWidths.push(lastLineWidth);
                     maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
                     line++;
 
                     pos.x = 0;
-                    pos.y += this.lineHeight ||data.lineHeight;
+                    pos.y += this.lineHeight || data.lineHeight;
                     prevCharCode = null;
                     continue;
                 }
 
-                if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth) {
+                if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth
+                    && charCode !== 46 && charCode !== 44 && charCode !== 32
+                ) {
                     PIXI.utils.removeItems(chars, lastSpace - spacesRemoved, i - lastSpace);
                     i = lastSpace;
                     lastSpace = -1;
@@ -442,10 +386,11 @@ Red.BitmapText2 = (function ()
                     line++;
 
                     pos.x = 0;
-                    pos.y += this.lineHeight ||data.lineHeight; //Red modify
+                    pos.y += this.lineHeight || data.lineHeight;    //Red modify
                     prevCharCode = null;
-                    continue;
+                    //continue;
                 }
+
 
                 var charData = data.chars[charCode];
 
@@ -463,13 +408,72 @@ Red.BitmapText2 = (function ()
                     charCode: charCode,
                     position: new PIXI.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)
                 });
-
                 lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
                 pos.x += charData.xAdvance;
                 maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
                 prevCharCode = charCode;
             }
         }
+        // else
+        // {
+        //     for (var i = 0; i < this.text.length; i++) {
+        //         var charCode = this.text.charCodeAt(i);
+        //
+        //         if (/(\s)/.test(this.text.charAt(i))) {
+        //             lastSpace = i;
+        //             lastSpaceWidth = lastLineWidth;
+        //         }
+        //         //if (/(?:\r\n|\n)/.test(this.text.charAt(i))) {
+        //         if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
+        //             lineWidths.push(lastLineWidth);
+        //             maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
+        //             line++;
+        //
+        //             pos.x = 0;
+        //             pos.y += this.lineHeight ||data.lineHeight;
+        //             prevCharCode = null;
+        //             continue;
+        //         }
+        //
+        //         if (lastSpace !== -1 && this._maxWidth > 0 && pos.x * scale > this._maxWidth) {
+        //             PIXI.utils.removeItems(chars, lastSpace - spacesRemoved, i - lastSpace);
+        //             i = lastSpace;
+        //             lastSpace = -1;
+        //             ++spacesRemoved;
+        //
+        //             lineWidths.push(lastSpaceWidth);
+        //             maxLineWidth = Math.max(maxLineWidth, lastSpaceWidth);
+        //             line++;
+        //
+        //             pos.x = 0;
+        //             pos.y += this.lineHeight ||data.lineHeight; //Red modify
+        //             prevCharCode = null;
+        //             continue;
+        //         }
+        //
+        //         var charData = data.chars[charCode];
+        //
+        //         if (!charData) {
+        //             continue;
+        //         }
+        //
+        //         if (prevCharCode && charData.kerning[prevCharCode]) {
+        //             pos.x += charData.kerning[prevCharCode];
+        //         }
+        //
+        //         chars.push({
+        //             texture: charData.texture,
+        //             line: line,
+        //             charCode: charCode,
+        //             position: new PIXI.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)
+        //         });
+        //
+        //         lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
+        //         pos.x += charData.xAdvance;
+        //         maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
+        //         prevCharCode = charCode;
+        //     }
+        // }
 
 
 

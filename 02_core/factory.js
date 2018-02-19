@@ -208,6 +208,28 @@ Red.Factory = (function ()
             }
         },
 
+        scaleAction : function (con, start, end, Tween, maxTime, finishCall, isFixed )
+        {
+            con.scale.set( start );
+            this.game.factory.action( maxTime,
+                (function (delta, a, t, maxT)
+                {
+                    var tt = Tween(t/maxT);
+                    con.scale.set( Red.Math.Lerp( start, end, tt ) );
+                }).bind(this), finishCall, isFixed);
+        },
+
+        moveXAction : function (con, start, end, Tween, maxTime, finishCall, isFixed )
+        {
+            con.x = start;
+            this.game.factory.action( maxTime,
+                (function (delta, a, t, maxT)
+                {
+                    var tt = Tween(t/maxT);
+                    con.x = ( Red.Math.Lerp( start, end, tt ) );
+                }).bind(this), finishCall, isFixed);
+        },
+
         waitCall : function (waitTime, call)
         {
             this.action( waitTime,function (){}, call );

@@ -14,7 +14,7 @@ Red.Layout = (function ()
         nineSlice : {spriteName : "", border:{l:0,t:0,r:0,b:0},width:0,height:0,  alpha : 1, color : "", isInteractive:false},
         button : {normal:"", over:"", push:"", disabled:""},
         text : {font:"", text:"", size:0, align : "", width:0},
-        input : { placeholder : "", width : 0, height : 0, fontSize : 0,  fontColor:"", placeholderColor:"", isTextArea :false ,isPassword : false},
+        input : { placeholder : "", width : 0, height : 0, fontSize : 0,  fontColor:"", placeholderColor:"", isTextArea :false ,isPassword : false, isNumberOnly : false},
         scroll : {},
         toggleGroup : { toggles : [ {buttonName:"", onImageName:""} ], defaultIndex : 0 },
 
@@ -240,7 +240,7 @@ Red.Layout = (function ()
             {
                 con = new Red.InputText( this.game );
 
-                if( data.input.isTextArea )
+                if( data.input.isTextArea === "true" )
                 {
                     con.create( data.localPosition.x, data.localPosition.y, data.input.width, data.input .height, data.input.fontSize || 18, root, null );
                 }
@@ -251,7 +251,16 @@ Red.Layout = (function ()
 
                 data.input.placeholder && con.setPlaceholder(  data.input.placeholder );
                 con.setColor( "#" + data.input.fontColor );
-                if(data.input.isPassword === "true")   con.setPassword();
+                if(data.input.isPassword === "true")
+                {
+                    con.setPassword();
+                }
+
+                if( data.input.isNumberOnly === "true" )
+                {
+                    con.setNumberOnly();
+                }
+
             }
             else if( data.mask )
             {

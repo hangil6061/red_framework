@@ -147,9 +147,12 @@ Red.Scroll = (function ()
 
         _onMouseWheel : function (e)
         {
+            var delta = e.deltaY || -e.wheelDelta;
+
+
             if(this.isMouseOver && this.scrollArea.height > this.scrollRect.height)
             {
-                if( e.deltaY > 0 )
+                if( delta > 0 )
                 {
                     //아래로
 

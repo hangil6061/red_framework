@@ -91,6 +91,11 @@ Red.InputText = (function ()
             this.input.type = "password";
         },
 
+        setNumberOnly : function ()
+        {
+            this.input.type = "number";
+        },
+
         clear : function ()
         {
             this.input.value = "";
@@ -114,6 +119,11 @@ Red.InputText = (function ()
         setColor : function (color)
         {
             this.input.style.color = color;
+        },
+
+        setOnChange : function (call)
+        {
+            this.input.onchange = call;
         },
 
         setActive : function (isActive)
