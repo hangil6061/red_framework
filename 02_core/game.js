@@ -14,7 +14,7 @@ Red.Game = (function ()
         OnWindowResize : "OnWindowResize",
     };
 
-    function Game( config)
+    function Game( config )
     {
 
         config = config || {};
@@ -59,6 +59,7 @@ Red.Game = (function ()
         this.httpManager = new Red.HttpManager();
         this.keyManager = new Red.KeyManager();
         this.layoutManager = new Red.LayoutManager();
+        this.poolManager = new Red.PoolManager();
 
         this.world.boot(this);
         this.camera.boot(this);
@@ -69,6 +70,7 @@ Red.Game = (function ()
         this.containerManager.boot( this );
         this.debugManager.boot( this );
         this.layoutManager.boot( this );
+        this.poolManager.boot( this );
 
         view = this.renderer.view;
         document.body.appendChild( view );
