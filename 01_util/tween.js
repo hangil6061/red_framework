@@ -3,6 +3,13 @@ var Red = Red || {};
 Red.Tween = (function ()
 {
     var Tween = {};
+    Tween.None = {
+        none : function (k)
+        {
+            return k;
+        }
+    };
+
     Tween.Bounce = {
         In: function ( k ) {
             return 1 - Tween.Bounce.Out( 1 - k );

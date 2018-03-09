@@ -84,7 +84,13 @@ Red.Vector2 = (function ()
             var cos = Math.cos(angle);
             var sin = Math.sin(angle);
             return this.set(this.x * cos - this.y * sin, this.x * sin + this.y * cos);
+        },
+
+        clone : function ()
+        {
+            return new Vector2( this.x, this.y );
         }
+
     };
 
     Vector2.Add = function(vec1, vec2)
