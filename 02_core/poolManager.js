@@ -33,6 +33,10 @@ Red.PoolManager = (function ()
             else
             {
                 item = new prototype(this.game);
+                if( !item.name )
+                {
+                    item.name = prototype.name;
+                }
                 item.onCreate && item.onCreate();
             }
             pool.use.push( item );
