@@ -37368,9 +37368,22 @@ var NineSlicePlane = function (_Plane) {
     NineSlicePlane.prototype.updateHorizontalVertices = function updateHorizontalVertices() {
         var vertices = this.vertices;
 
-        vertices[9] = vertices[11] = vertices[13] = vertices[15] = this._topHeight;
-        vertices[17] = vertices[19] = vertices[21] = vertices[23] = this._height - this._bottomHeight;
-        vertices[25] = vertices[27] = vertices[29] = vertices[31] = this._height;
+        var sideSum = this._topHeight +  this._bottomHeight;
+
+        if( sideSum > this._height)
+        {
+            var tempTopHeight = this._height * (this._topHeight/sideSum);
+
+            vertices[9] = vertices[11] = vertices[13] = vertices[15] = tempTopHeight;
+            vertices[17] = vertices[19] = vertices[21] = vertices[23] = tempTopHeight;
+            vertices[25] = vertices[27] = vertices[29] = vertices[31] = this._width;
+        }
+        else
+        {
+            vertices[9] = vertices[11] = vertices[13] = vertices[15] = this._topHeight;
+            vertices[17] = vertices[19] = vertices[21] = vertices[23] = this._height - this._bottomHeight;
+            vertices[25] = vertices[27] = vertices[29] = vertices[31] = this._height;
+        }
     };
 
     /**
@@ -37382,9 +37395,22 @@ var NineSlicePlane = function (_Plane) {
     NineSlicePlane.prototype.updateVerticalVertices = function updateVerticalVertices() {
         var vertices = this.vertices;
 
-        vertices[2] = vertices[10] = vertices[18] = vertices[26] = this._leftWidth;
-        vertices[4] = vertices[12] = vertices[20] = vertices[28] = this._width - this._rightWidth;
-        vertices[6] = vertices[14] = vertices[22] = vertices[30] = this._width;
+        var sideSum = this._leftWidth +  this._rightWidth;
+
+        if( sideSum > this._width)
+        {
+            var tempLeftWidth = this._width * (this._leftWidth/sideSum);
+
+            vertices[2] = vertices[10] = vertices[18] = vertices[26] = tempLeftWidth;
+            vertices[4] = vertices[12] = vertices[20] = vertices[28] = tempLeftWidth;
+            vertices[6] = vertices[14] = vertices[22] = vertices[30] = this._width;
+        }
+        else
+        {
+            vertices[2] = vertices[10] = vertices[18] = vertices[26] = this._leftWidth;
+            vertices[4] = vertices[12] = vertices[20] = vertices[28] = this._width - this._rightWidth;
+            vertices[6] = vertices[14] = vertices[22] = vertices[30] = this._width;
+        }
     };
 
     /**
