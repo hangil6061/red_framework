@@ -160,6 +160,12 @@ Red.Math = (function ()
         return true;
     };
 
+    Mathf.IntersectsCircle = function ( aX, aY, aR, bX, bY, bR )
+    {
+        var sqrt = ((aX - bX) * (aX - bX)) + ((aY - bY) * (aY - bY ));
+        return sqrt < (aR+bR)*(aR+bR);
+    },
+
     Mathf.DEG_TO_RAD = Math.PI / 180;
     Mathf.RAD_TO_DEG  = 180 / Math.PI;
 
@@ -178,7 +184,7 @@ Red.Math = (function ()
     Mathf.RotZ2D = function(point, rad)
     {
         var x = point.x * Math.cos( rad ) + point.y * Math.sin(rad);
-        var y = point.x * -Math.sin(rad) + point.y + Math.cos(rad);
+        var y = point.x * -Math.sin(rad) + point.y * Math.cos(rad);
         point.x = x;
         point.y = y;
         return point;
