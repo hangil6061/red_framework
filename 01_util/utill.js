@@ -22,7 +22,7 @@ Red.Utill = (function ()
     };
 
     /**
-     * 
+     *
      * 존재하면 덮어쓰기
      * @param key
      * @param str
@@ -42,7 +42,7 @@ Red.Utill = (function ()
     };
 
     /**
-     * 
+     *
      * @param n 숫자
      * @param digits 0채울 자릿수
      * @returns {string}
@@ -59,14 +59,24 @@ Red.Utill = (function ()
     };
 
     /**
-     * 
+     *
      * @param f 실수
      * @param cipher  반올림할 소숫점 자릿수
-     * @returns {number} 반환실수                                                                                                                                                                                                  =
+     * @returns {number} 반환실수
      */
     Utill.floatRound = function (f, cipher)
     {
-        return (Math.round( f * cipher ) / cipher);
+        return Math.round( f * cipher ) / cipher;
+    };
+
+    /**
+     * 숫자 입력받아 3자리수마다 ,찍어서 반환함
+     * @param num 정수
+     * @returns {string}
+     */
+    Utill.addComma = function(num)
+    {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
     return Utill;

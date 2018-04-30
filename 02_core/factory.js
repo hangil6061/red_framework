@@ -63,7 +63,7 @@ Red.Factory = (function ()
 
         text : function (x, y, str, container)
         {
-            var text = new Text(str);
+            var text = new PIXI.Text(str);
             text.x = x;
             text.y = y;
 

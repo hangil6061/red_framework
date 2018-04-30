@@ -127,7 +127,7 @@ Red.ScrollArea = (function ()
                 this.scrollArea.y = this.scrollRect.top;
             }
 
-            this.moveDelta = (this.scrollArea.height);
+            this.moveDelta = (this.scrollArea.height) * 0.1;
             this._updateBarRect();
         },
 

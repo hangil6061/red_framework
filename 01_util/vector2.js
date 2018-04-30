@@ -66,6 +66,7 @@ Red.Vector2 = (function ()
             var invLen = (this.x !== 0 || this.y !== 0) ? 1 / Math.sqrt(this.x * this.x + this.y * this.y) : 0;
             this.x *= invLen;
             this.y *= invLen;
+            return this;
         },
         dot : function ( vec2 )
         {

@@ -143,11 +143,11 @@ Red.Game = (function ()
               viewWidth = window.innerWidth;
               viewHeight = window.innerWidth / ratio;
           }
-          
-          // 가운데 정렬
-          // view.style.left = '50%';
-          // view.style.top = '50%';
-          // view.style.transform = 'translate3d( -50%, -50%, 0 )';
+
+          //가운데 정렬
+          view.style.left = '50%';
+          view.style.top = '50%';
+          view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
           view.style.width = viewWidth + 'px';
           view.style.height = viewHeight + 'px';
