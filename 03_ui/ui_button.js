@@ -219,7 +219,7 @@ Red.Button = (function ()
             }
         },
 
-        _onButtonUp : function ()
+        _onButtonUp : function (e)
         {
             if( !this.isOn ) return;
 
@@ -245,7 +245,7 @@ Red.Button = (function ()
             if( this.isdown )
             {
                 this.isdown = false;
-                this.buttonAction && this.buttonAction();
+                this.buttonAction && this.buttonAction(e);
             }
 
         },
