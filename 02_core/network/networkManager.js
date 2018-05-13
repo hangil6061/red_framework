@@ -55,8 +55,7 @@ Red.NetworkManager = (function ()
 
         onMessage : function (message)
         {
-            console.log( message );
-            this.onMessageCall && this.onMessageCall( message );
+            this.onMessageCall && this.onMessageCall( message.data );
         },
 
         sendMessage : function (message)
