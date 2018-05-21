@@ -15,8 +15,14 @@ Red.PacketManager = (function ()
 
         decode : function (protocols, packet)
         {
-            var decoder = new Red.Packet.Decoder(packet);
-            return decoder.decode(protocols);
+            return new Promise((resolve, reject) => {
+                (new Red.Packet.Decoder(packet)).then((decoder) => {
+                    return resolve(decoder.decode(protocols));
+                }).catch((err) => {
+                    console.error(err.stack);
+                    reject(err);
+                });
+            });
         },
     };
 
