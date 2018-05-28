@@ -5,7 +5,15 @@ Red.Stack = (function ()
     function Stack(size)
     {
         this.arr = [];
-        this.arr.length = this.size = size || 100;
+        if( parseInt( size ) )
+        {
+            this.arr.length = this.size = size || 100;
+        }
+        else
+        {
+            this.arr.length = this.size = 100;
+        }
+
         this.length = 0;
     }
 
