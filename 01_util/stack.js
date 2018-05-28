@@ -2,7 +2,7 @@ var Red = Red || {};
 
 Red.Stack = (function ()
 {
-    function Stack()
+    function Stack(size)
     {
         this.arr = [];
         this.arr.length = this.size = size || 100;
