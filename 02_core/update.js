@@ -53,6 +53,7 @@ Red.Update = (function ()
 
         update: function ()
         {
+            this.game.stats.begin();
             var self = this;
             var time = self.time;
             var curTime = Date.now();
@@ -153,6 +154,7 @@ Red.Update = (function ()
             updateCache.length = 0;
 
             window.requestAnimationFrame(this.updateBind);
+            this.game.stats.end();
         }
     };
 
