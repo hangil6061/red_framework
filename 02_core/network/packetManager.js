@@ -15,10 +15,15 @@ Red.PacketManager = (function ()
 
         decode : function (protocols, packet)
         {
-            return new Promise((resolve, reject) => {
-                (new Red.Packet.Decoder(packet)).then((decoder) => {
+            return new Promise((resolve, reject) =>
+            {
+                (new Red.Packet.Decoder(packet))
+                .then((decoder) =>
+                {
                     return resolve(decoder.decode(protocols));
-                }).catch((err) => {
+                })
+                .catch((err) =>
+                {
                     console.error(err.stack);
                     reject(err);
                 });
