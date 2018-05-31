@@ -6,6 +6,7 @@ Red.Utill = (function ()
     {
     }
 
+
     Utill.stringFormat = function (string)
     {
         var args = arguments;
@@ -21,12 +22,32 @@ Red.Utill = (function ()
         return Utill.stringFormat("https://docs.google.com/spreadsheets/d/{0}/export?gid={1}&format=csv",key,sheetID);
     };
 
+    Utill.deepCopy = function(obj)
+    {
+        const ret = {};
+        for (let i in obj)
+        {
+            if (obj.hasOwnProperty(i))
+            {
+                if (typeof obj[i] === 'object')
+                {
+                    ret[i] = Utill.deepCopy(obj[i]);
+                }
+                else
+                {
+                    ret[i] = obj[i];
+                }
+            }
+        }
+        return ret;
+    };
+
     /**
-     *
-     * 존재하면 덮어쓰기
-     * @param key
-     * @param str
-     */
+ *
+ * 존재하면 덮어쓰기
+ * @param key
+ * @param str
+ */
     Utill.localSave = function (key, str)
     {
         localStorage.setItem(key, str);

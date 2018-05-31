@@ -15,12 +15,14 @@ Red.PacketManager = (function ()
 
         decode : function (protocols, packet)
         {
+            var protocol = Red.Utill.deepCopy( protocols );
+
             return new Promise((resolve, reject) =>
             {
                 (new Red.Packet.Decoder(packet))
                 .then((decoder) =>
                 {
-                    return resolve(decoder.decode(protocols));
+                    return resolve(decoder.decode(protocol));
                 })
                 .catch((err) =>
                 {
