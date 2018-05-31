@@ -40,6 +40,11 @@ Red.Game = (function ()
         // this.pixi.renderer.roundPixels = true;
         // this.pixi.renderer.forceFXAA = true;
 
+        this.stats = new Stats();
+        this.stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+        document.body.appendChild( this.stats.dom );
+
+
         this.stage = new PIXI.Container();
         this.isDebug = false;
 
