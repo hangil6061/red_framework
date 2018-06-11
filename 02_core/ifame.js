@@ -10,11 +10,7 @@ Red.IFrame = (function ()
             "@gamePlay": null,
         };
 
-        this.on( "@gamePlay", function ()
-        {
-            this.call && this.call();
-        }.bind(this));
-
+        window.addEventListener("message", this._onMessage.bind(this));
     }
 
     IFrame.prototype = {
@@ -26,18 +22,30 @@ Red.IFrame = (function ()
 
         updateScore : function(score)
         {
-
+            if( window.parent )
+            {
+                window.parent.postMessage({
+                    type : "@updateScore",
+                    score : score
+                }, '*');
+            }
         },
 
         gameOver : function(score)
         {
-
+            if( window.parent )
+            {
+                window.parent.postMessage({
+                    type : "@gameOver",
+                    score : score
+                }, '*');
+            }
         },
 
-        on : function ( eventName, call )
+        _onMessage : function( message )
         {
-            window.addEventListener( eventName, call );
-            return this;
+            if( !message.type ) return;
+            this.call[message.type] && this.call[message]( message );
         },
     };
 
