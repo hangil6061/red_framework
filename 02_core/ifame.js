@@ -44,8 +44,8 @@ Red.IFrame = (function ()
 
         _onMessage : function( message )
         {
-            if( !message.type ) return;
-            this.call[message.type] && this.call[message]( message );
+            if( !message.data || !message.data.type ) return;
+            this.call[message.data.type] && this.call[message.data.type]( message.data );
         },
     };
 
