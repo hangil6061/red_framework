@@ -1,10 +1,23 @@
 var Red = Red || {};
 
+Red.RESIZETYPE = {
+    base : 0,
+    none : 1,
+};
+
+//확장0 축소1
+Red.RESPONSIVETYPE = {
+    ALL_INC : 0,
+    LR_DEC : 1,
+    UD_DEC : 2,
+    ALL_DEC : 3,
+};
+
 Red.Game = (function ()
 {
     var view = null;
-    var maxSizeX = 800;
-    var maxSizeY = 600;
+    var mWidth = 800;
+    var mHeight = 600;
     var viewWidth = 0;
     var viewHeight = 0;
 
@@ -14,18 +27,24 @@ Red.Game = (function ()
         OnWindowResize : "OnWindowResize",
     };
 
+    var resizeFunc = {};
+    resizeFunc[Red.RESIZETYPE.base] = resizeBase;
+    resizeFunc[Red.RESIZETYPE.none] = resizeNone;
+
     function Game( config )
     {
-
         config = config || {};
-        config.width = config.width || maxSizeX;
-        config.height = config.height || maxSizeX;
+        config.width = config.width || window.innerWidth;
+        config.height = config.height || window.innerHeight;
         config.resolution = config.resolution || 1;
         config.antialias = config.antialias || false;
         config.backgroundColor = config.backgroundColor || 0x000000;
-
-        maxSizeX = config.width;
-        maxSizeY = config.height;
+        config.resizeType = config.resizeType || Red.RESIZETYPE.base;
+        config.maxWidth = config.maxWidth || config.width;
+        config.maxHeight = config.maxHeight || config.height;
+        config.minWidth = config.minWidth || config.width;
+        config.minHeight = config.minHeight || config.height;
+        config.responsiveType = config.responsiveType || Red.RESPONSIVETYPE.ALL_INC;
 
         Red.game = this;
 
@@ -33,9 +52,78 @@ Red.Game = (function ()
         this.height = config.height;
         this.halfWidth = config.width / 2;
         this.halfHeight = config.height / 2;
+        this.aspectRatio = this.height / this.width;
+        this.resizeType = config.resizeType;
 
 
-        this.renderer = new PIXI.autoDetectRenderer({ width:config.width, height:config.height, backgroundColor:config.backgroundColor, antialias : config.antialias, resolution : config.resolution});
+        document.body.style.margin = '0';
+
+        const maxWidth = config.maxWidth;
+        const maxHeight = config.maxHeight;
+        const minWidth = config.minWidth;
+        const minHeight = config.minHeight;
+        const responsiveType = config.responsiveType;
+        const innerWidth = window.innerWidth;
+        const innerHeight = window.innerHeight;
+        const innerAspectRatio = innerHeight / innerWidth;
+
+        if( this.aspectRatio > innerAspectRatio )   //게임해상도보다 가로로 큼
+        {
+            if( (responsiveType & Red.RESPONSIVETYPE.LR_DEC) === Red.RESPONSIVETYPE.LR_DEC )
+            {
+                const scale = innerWidth / this.width;
+                const scaledH = this.height * scale;
+                const scaledExcessH = scaledH - innerHeight;
+                const excessH = scaledExcessH / scale;
+                this.height -= excessH;
+                if( this.height < minHeight )
+                {
+                    this.height = minHeight;
+                }
+                console.log( this.width );
+            }
+            else
+            {
+                this.width *= this.aspectRatio / innerAspectRatio;
+                if( this.width > maxWidth )
+                {
+                    this.width = maxWidth;
+                }
+            }
+        }
+        else                                        //게임해상도보다 세로로 큼
+        {
+            if( (responsiveType & Red.RESPONSIVETYPE.UD_DEC) === Red.RESPONSIVETYPE.UD_DEC )
+            {
+                const scale = innerHeight / this.height;
+                const scaledW = this.width * scale;
+                const scaledExcessW = scaledW - innerWidth;
+                const excessW = scaledExcessW / scale;
+                this.width -= excessW;
+                if( this.width < minWidth )
+                {
+                    this.width = minWidth;
+                }
+                console.log( this.height );
+            }
+            else
+            {
+                this.height *= innerAspectRatio / this.aspectRatio;
+                if( this.height > maxHeight )
+                {
+                    this.height = maxHeight;
+                }
+            }
+        }
+
+        this.halfWidth = this.width / 2;
+        this.halfHeight = this.height / 2;
+        this.aspectRatio = this.height / this.width;
+
+        this.renderer = new PIXI.autoDetectRenderer({ width:this.width, height:this.height, backgroundColor:config.backgroundColor, antialias : config.antialias, resolution : config.resolution});
+        mWidth = this.width;
+        mHeight = this.height;
+
         // this.pixi.renderer.options.antialias = true;
         // this.pixi.renderer.roundPixels = true;
         // this.pixi.renderer.forceFXAA = true;
@@ -82,9 +170,10 @@ Red.Game = (function ()
 
         resizeEvent = this.signalManager.addSignal(Red.SYSTEMEVENT.OnWindowResize);
 
-        resize();
-        window.onorientationchange = resize;
-        window.onresize = resize;
+        resizeFunc[this.resizeType]();
+        window.onorientationchange = resizeFunc[this.resizeType];
+        window.onresize = resizeFunc[this.resizeType];
+
         this.requestFullScreen = requestFullScreen;
 
         // '게임화면'에 대한 '실제화면' 비율
@@ -109,10 +198,10 @@ Red.Game = (function ()
         }
     }
 
-    function resize()
+    function resizeBase()
     {
          //꽉채우기
-         // if (window.innerWidth * maxSizeY <= window.innerHeight * maxSizeX)
+         // if (window.innerWidth * mHeight <= window.innerHeight * mWidth)
          // {
          //     view.style.position = "";
          //     view.style.display = "block";
@@ -121,7 +210,7 @@ Red.Game = (function ()
          // }
          // else
          // {
-         //     if (((window.innerHeight * maxSizeX) / (window.innerWidth * maxSizeY) * 100) >= 80)
+         //     if (((window.innerHeight * mWidth) / (window.innerWidth * mHeight) * 100) >= 80)
          //     {
          //         view.style.position = "absolute";
          //         view.style.width = "100%";
@@ -131,13 +220,13 @@ Red.Game = (function ()
          //     {
          //         view.style.position = "";
          //         view.style.display = "block";
-         //         view.style.width = ((window.innerHeight * maxSizeX) / (window.innerWidth * maxSizeY) * 100) + "%";
+         //         view.style.width = ((window.innerHeight * mWidth) / (window.innerWidth * mHeight) * 100) + "%";
          //         view.style.height = "100%";
          //     }
          // }
 
             //비율에 맞게
-          var ratio = maxSizeX / maxSizeY;
+          var ratio = mWidth / mHeight;
           if (window.innerWidth / window.innerHeight >= ratio)
           {
               viewWidth = window.innerHeight * ratio;
@@ -162,6 +251,10 @@ Red.Game = (function ()
           // view.style.top = ((window.innerHeight - viewHeight) >> 1) + 'px';
 
           resizeEvent.dispatch();
+    }
+    
+    function resizeNone() {
+
     }
 
     return Game;
