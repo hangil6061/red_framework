@@ -17,6 +17,9 @@ Red.IFrame = (function ()
         init : function ( gamePlayCall )
         {
             this.call["@gamePlay"] = gamePlayCall;
+            window.parent.postMessage({
+                type : "@gameReady",
+            }, '*');
             return this;
         },
 
