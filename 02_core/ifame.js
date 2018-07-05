@@ -6,29 +6,57 @@ Red.IFrame = (function ()
     {
         this.game = game;
 
-        this.call = {
-            "@gamePlay": null,
-        };
-
+        this.call = {};
         window.addEventListener("message", this._onMessage.bind(this));
     }
+
+    IFrame.EventType = {
+        gamePlay : '@gamePlay',
+        gameReady : '@gameReady',
+        updateScore : '@updateScore',
+        gameOver : '@gameOver',
+
+        leftArrowDown : '@leftArrowDown',
+        leftArrowUp : '@leftArrowUp',
+        rightArrowDown: '@rightArrowDown',
+        rightArrowUp : '@rightArrowUp',
+        upArrowDown : '@upArrowDown',
+        upArrowUp : '@upArrowUp',
+        downArrowDown : '@downArrowDown',
+        downArrowUp : '@downArrowUp',
+
+        aButtonDown : '@aButtonDown',
+        aButtonUp : '@aButtonUp',
+        bButtonDown : '@bButtonDown',
+        bButtonUp : '@bButtonUp',
+        cButtonDown : '@cButtonDown',
+        cButtonUp : '@cButtonUp',
+    };
 
     IFrame.prototype = {
         init : function ( gamePlayCall )
         {
-            this.call["@gamePlay"] = gamePlayCall;
+            this.addEvent( IFrame.EventType.gamePlay, gamePlayCall );
             window.parent.postMessage({
-                type : "@gameReady",
+                type : IFrame.EventType.gameReady,
             }, '*');
             return this;
         },
 
-        updateScore : function(score)
+        addEvent: function( event, call ) {
+            this.call[event] = call;
+        },
+
+        removeEvent: function( event ) {
+            this.call[event] = null;
+        },
+
+        updateScore : function( score )
         {
             if( window.parent )
             {
                 window.parent.postMessage({
-                    type : "@updateScore",
+                    type : IFrame.EventType.updateScore,
                     score : score
                 }, '*');
             }
@@ -39,7 +67,7 @@ Red.IFrame = (function ()
             if( window.parent )
             {
                 window.parent.postMessage({
-                    type : "@gameOver",
+                    type : IFrame.EventType.gameOver,
                     score : score
                 }, '*');
             }
