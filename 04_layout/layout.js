@@ -12,6 +12,7 @@ Red.Layout = (function ()
         scale : {x:0, y:0},
         sprite : { spriteName : "", color : "", alpha : 1, isInteractive:false },
         nineSlice : {spriteName : "", border:{l:0,t:0,r:0,b:0},width:0,height:0,  alpha : 1, color : "", isInteractive:false},
+        tilingSprite : {spriteName : "", width:0,height:0,  alpha : 1, color : "", isInteractive:false},
         button : {normal:"", over:"", push:"", disabled:""},
         text : {font:"", text:"", size:0, align : "", width:0},
         input : { placeholder : "", width : 0, height : 0, fontSize : 0,  fontColor:"", placeholderColor:"", isTextArea :false ,isPassword : false, isNumberOnly : false},
@@ -153,6 +154,34 @@ Red.Layout = (function ()
                     con.interactive = data.nineSlice.isInteractive;
                 }
 
+                root.addChild( con );
+            }
+            else if( data.tilingSprite )
+            {
+                con = new PIXI.extras.TilingSprite( PIXI.Texture.fromImage( data.tilingSprite.spriteName )
+                    , data.width, data.height );
+                con.position.set( data.localPosition.x,data.localPosition.y);
+                con.pivot.set( data.pivot.x, data.pivot.y );
+
+                if(data.tilingSprite.color)
+                {
+                    con.tint = parseInt( data.tilingSprite.color);
+                }
+                if(data.tilingSprite.alpha)
+                {
+                    con.alpha = data.tilingSprite.alpha;
+                }
+                if(data.scale)
+                {
+                    con.scale.set( data.scale.x, data.scale.y );
+                }
+
+                if(data.tilingSprite.isInteractive )
+                {
+                    con.interactive = data.tilingSprite.isInteractive;
+                }
+
+                con.anchor.set( data.pivot.x, data.pivot.y );
                 root.addChild( con );
             }
             else if( data.button )
