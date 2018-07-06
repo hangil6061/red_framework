@@ -12,6 +12,7 @@ Red.IFrame = (function ()
 
     IFrame.EventType = {
         gamePlay : '@gamePlay',
+        gameRetry : '@gameRetry',
         gameReady : '@gameReady',
         updateScore : '@updateScore',
         gameOver : '@gameOver',
