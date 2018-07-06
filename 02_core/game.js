@@ -3,6 +3,8 @@ var Red = Red || {};
 Red.RESIZETYPE = {
     base : 0,
     none : 1,
+    stretch : 2,
+    inGameResize : 3,
 };
 
 //확장0 축소1
@@ -28,11 +30,14 @@ Red.Game = (function ()
     };
 
     var resizeFunc = {};
-    resizeFunc[Red.RESIZETYPE.base] = resizeBase;
-    resizeFunc[Red.RESIZETYPE.none] = resizeNone;
 
     function Game( config )
     {
+        resizeFunc[Red.RESIZETYPE.base] = resizeBase.bind(this);
+        resizeFunc[Red.RESIZETYPE.none] = resizeNone.bind(this);
+        resizeFunc[Red.RESIZETYPE.stretch] = resizeStretch.bind(this);
+        resizeFunc[Red.RESIZETYPE.inGameResize] = resizeInGameResize.bind(this);
+
         config = config || {};
         config.width = config.width || window.innerWidth;
         config.height = config.height || window.innerHeight;
@@ -46,15 +51,16 @@ Red.Game = (function ()
         config.minHeight = config.minHeight || config.height;
         config.responsiveType = config.responsiveType || Red.RESPONSIVETYPE.ALL_INC;
 
-        Red.game = this;
+        // Red.game = this;
 
         this.width = config.width;
         this.height = config.height;
+        this.baseWidth = config.baseWidth || this.width;
+        this.baseHegiht = config.baseHegiht || this.height;
         this.halfWidth = config.width / 2;
         this.halfHeight = config.height / 2;
         this.aspectRatio = this.height / this.width;
         this.resizeType = config.resizeType;
-
 
         document.body.style.margin = '0';
 
@@ -66,6 +72,13 @@ Red.Game = (function ()
         const innerWidth = window.innerWidth;
         const innerHeight = window.innerHeight;
         const innerAspectRatio = innerHeight / innerWidth;
+
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+        this.minWidth = minWidth;
+        this.minHeight = minHeight;
+        this.responsiveType = responsiveType;
+
 
         if( this.aspectRatio > innerAspectRatio )   //게임해상도보다 가로로 큼
         {
@@ -198,61 +211,102 @@ Red.Game = (function ()
         }
     }
 
+    function resizeInGameResize()
+    {
+        this.width = this.baseWidth;
+        this.height = this.baseHegiht;
+        this.aspectRatio = this.height / this.width;
+
+        const maxWidth = this.maxWidth;
+        const maxHeight = this.maxHeight;
+
+        var innerWidth = window.innerWidth;
+        var innerHeight = window.innerHeight;
+        const innerAspectRatio = innerHeight / innerWidth;
+
+
+        if( this.aspectRatio > innerAspectRatio )
+        {
+            this.width = this.baseWidth * (this.aspectRatio / innerAspectRatio);
+            // innerWidth = this.baseWidth * (innerAspectRatio / this.aspectRatio);
+
+            if( this.width > maxWidth )
+            {
+                const rate = innerWidth / this.width;
+                this.width = maxWidth;
+                innerWidth = this.width * rate;
+            }
+            // console.log('가로로 더김');
+        }
+        else
+        {
+            this.height *= innerAspectRatio / this.aspectRatio;
+            if( this.height > maxHeight )
+            {
+                const rate = innerHeight / this.height;
+                this.height = maxHeight;
+                innerHeight = this.height * rate;
+            }
+            // console.log('세로로 더김');
+        }
+
+        this.halfWidth = this.width / 2;
+        this.halfHeight = this.height / 2;
+        this.aspectRatio = this.height / this.width;
+        this.renderer.resize( this.width - 1, this.height );
+
+        //가운데 정렬
+        view.style.left = '50%';
+        view.style.top = '50%';
+        view.style.transform = 'translate3d( -50%, -50%, 0 )';
+
+        view.style.width = innerWidth + 'px';
+        view.style.height = innerHeight + 'px';
+        view.style.position = 'absolute';
+        resizeEvent.dispatch();
+    }
+
+    function resizeStretch()
+    {
+        //꽉채우기
+        viewWidth = window.innerWidth;
+        viewHeight = window.innerHeight;
+        view.style.position = "absolute";
+        view.style.width = "100%";
+        view.style.height = "100%";
+        resizeEvent.dispatch();
+    }
+
     function resizeBase()
     {
-         //꽉채우기
-         // if (window.innerWidth * mHeight <= window.innerHeight * mWidth)
-         // {
-         //     view.style.position = "";
-         //     view.style.display = "block";
-         //     view.style.width = "100%";
-         //     view.style.height = "100%";
-         // }
-         // else
-         // {
-         //     if (((window.innerHeight * mWidth) / (window.innerWidth * mHeight) * 100) >= 80)
-         //     {
-         //         view.style.position = "absolute";
-         //         view.style.width = "100%";
-         //         view.style.height = "100%";
-         //     }
-         //     else
-         //     {
-         //         view.style.position = "";
-         //         view.style.display = "block";
-         //         view.style.width = ((window.innerHeight * mWidth) / (window.innerWidth * mHeight) * 100) + "%";
-         //         view.style.height = "100%";
-         //     }
-         // }
+        //비율에 맞게
+        var ratio = mWidth / mHeight;
+        if (window.innerWidth / window.innerHeight >= ratio)
+        {
+            viewWidth = window.innerHeight * ratio;
+            viewHeight = window.innerHeight;
+        }
+        else
+        {
+            viewWidth = window.innerWidth;
+            viewHeight = window.innerWidth / ratio;
+        }
 
-            //비율에 맞게
-          var ratio = mWidth / mHeight;
-          if (window.innerWidth / window.innerHeight >= ratio)
-          {
-              viewWidth = window.innerHeight * ratio;
-              viewHeight = window.innerHeight;
-          }
-          else
-          {
-              viewWidth = window.innerWidth;
-              viewHeight = window.innerWidth / ratio;
-          }
+        //가운데 정렬
+        view.style.left = '50%';
+        view.style.top = '50%';
+        view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
-          //가운데 정렬
-          view.style.left = '50%';
-          view.style.top = '50%';
-          view.style.transform = 'translate3d( -50%, -50%, 0 )';
+        view.style.width = viewWidth + 'px';
+        view.style.height = viewHeight + 'px';
+        view.style.position = 'absolute';
 
-          view.style.width = viewWidth + 'px';
-          view.style.height = viewHeight + 'px';
-          view.style.position = 'absolute';
+        // view.style.left = ((window.innerWidth - viewWidth) >> 1) + 'px';
+        // view.style.top = ((window.innerHeight - viewHeight) >> 1) + 'px';
 
-          // view.style.left = ((window.innerWidth - viewWidth) >> 1) + 'px';
-          // view.style.top = ((window.innerHeight - viewHeight) >> 1) + 'px';
-
-          resizeEvent.dispatch();
+        resizeEvent.dispatch();
     }
-    
+
     function resizeNone() {
 
     }
