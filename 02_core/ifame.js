@@ -41,6 +41,12 @@ Red.IFrame = (function ()
             window.parent.postMessage({
                 type : IFrame.EventType.gameReady,
             }, '*');
+
+            if( window.Android )
+            {
+                window.Android.gameReady();
+            }
+
             return this;
         },
 
@@ -61,6 +67,11 @@ Red.IFrame = (function ()
                     score : score
                 }, '*');
             }
+
+            if( window.Android )
+            {
+                window.Android.updateScore(score);
+            }
         },
 
         gameOver : function(score)
@@ -71,6 +82,11 @@ Red.IFrame = (function ()
                     type : IFrame.EventType.gameOver,
                     score : score
                 }, '*');
+
+                if( window.Android )
+                {
+                    window.Android.gameEnd(score);
+                }
             }
         },
 
