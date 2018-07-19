@@ -1,19 +1,19 @@
 /*
 * Copyright (c) 2012 Ju Hyung Lee
 *
-* Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-* and associated documentation files (the "Software"), to deal in the Software without 
-* restriction, including without limitation the rights to use, copy, modify, merge, publish, 
-* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+* and associated documentation files (the "Software"), to deal in the Software without
+* restriction, including without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
 * Software is furnished to do so, subject to the following conditions:
 *
-* The above copyright notice and this permission notice shall be included in all copies or 
+* The above copyright notice and this permission notice shall be included in all copies or
 * substantial portions of the Software.
 *
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
-* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 var PhysicsRus = PhysicsRus || {};
@@ -772,12 +772,12 @@ PhysicsRus.Math = (function ()
     // 2D Transform
     //-----------------------------------
 
-    Transform = function (pos, angle)
+    function Transform(pos, angle)
     {
         this.t = pos.duplicate();
         this.c = Math.cos(angle);
         this.s = Math.sin(angle);
-    };
+    }
 
     Transform.prototype.set = function (pos, angle)
     {
@@ -836,7 +836,7 @@ PhysicsRus.Math = (function ()
     // 2D AABB
     //-----------------------------------
 
-    Bounds = function (mins, maxs)
+    function Bounds(mins, maxs)
     {
         this.mins = mins ? new vec2(mins.x, mins.y) : new vec2(999999, 999999);
         this.maxs = maxs ? new vec2(maxs.x, maxs.y) : new vec2(-999999, -999999);

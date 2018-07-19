@@ -1,19 +1,19 @@
 /*
 * Copyright (c) 2012 Ju Hyung Lee
 *
-* Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-* and associated documentation files (the "Software"), to deal in the Software without 
-* restriction, including without limitation the rights to use, copy, modify, merge, publish, 
-* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+* and associated documentation files (the "Software"), to deal in the Software without
+* restriction, including without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
 * Software is furnished to do so, subject to the following conditions:
 *
-* The above copyright notice and this permission notice shall be included in all copies or 
+* The above copyright notice and this permission notice shall be included in all copies or
 * substantial portions of the Software.
 *
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
-* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -38,13 +38,13 @@ PhysicsRus.ShapeCircle = (function ()
     var meter2pixel = PhysicsRus.Math.meter2pixel;
 
     var Shape = PhysicsRus.Shape;
-    
+
     var areaForCircle = PhysicsRus.util.areaForCircle;
     var inertiaForCircle = PhysicsRus.util.inertiaForCircle;
 
 
 
-    ShapeCircle = function (local_x, local_y, radius)
+    function ShapeCircle(local_x, local_y, radius)
     {
         Shape.call(this, Shape.TYPE_CIRCLE);
         this.c = new vec2(local_x || 0, local_y || 0);

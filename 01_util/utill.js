@@ -1,5 +1,23 @@
 var Red = Red || {};
 
+Number.isInteger = Number.isInteger || function(value) {
+    return typeof value === "number" &&
+        isFinite(value) &&
+        Math.floor(value) === value;
+};
+
+if (!(function f() {}).name) {
+    Object.defineProperty(Function.prototype, 'name', {
+        get: function() {
+            var name = (this.toString().match(/^function\s*([^\s(]+)/) || [])[1];
+            // For better performance only parse once, and then cache the
+            // result through a new accessor for repeated access.
+            Object.defineProperty(this, 'name', { value: name });
+            return name;
+        }
+    });
+}
+
 Red.Utill = (function ()
 {
     function Utill()
@@ -43,11 +61,11 @@ Red.Utill = (function ()
     };
 
     /**
- *
- * 존재하면 덮어쓰기
- * @param key
- * @param str
- */
+    *
+    * 존재하면 덮어쓰기
+    * @param key
+    * @param str
+    */
     Utill.localSave = function (key, str)
     {
         localStorage.setItem(key, str);

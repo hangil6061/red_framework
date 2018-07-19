@@ -12,16 +12,16 @@ Red.PoolManager2 = (function ()
 
         get : function( type )
         {
-            let item = this._getItem( type );
+            var item = this._getItem( type );
             item.onEnable && item.onEnable();
             return item;
         },
 
         _getItem : function ( type )
         {
-            let pool = this._getPool(type);
+            var pool = this._getPool(type);
 
-            let item = null;
+            var item = null;
             if( pool.pool.length > 0 )
             {
                 item = pool.pool.pop();
@@ -41,7 +41,7 @@ Red.PoolManager2 = (function ()
 
         _getPool : function ( type )
         {
-            let pool = this.pools[ type.name ];
+            var pool = this.pools[ type.name ];
             if( !pool )
             {
                 pool = this.pools[ type.name ] = {
@@ -55,16 +55,16 @@ Red.PoolManager2 = (function ()
         return : function ( item )
         {
             item.onDisable && item.onDisable();
-            let pool = this._getPool(item);
+            var pool = this._getPool(item);
             pool.pool.push( item );
             pool.use.remove( item );
         },
 
-        getUse ( type )
-        {
-            let pool = this._getPool(type);
+        getUse : function ( type ) {
+            var pool = this._getPool(type);
             return pool.use;
         }
+
     };
 
     return PoolManager2;
