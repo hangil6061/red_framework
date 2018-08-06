@@ -10,7 +10,7 @@ Red.Layout = (function ()
         position : {x:0,y:0},
         pivot : {x:0,y:0},
         scale : {x:0, y:0},
-        sprite : { spriteName : "", color : "", alpha : 1, isInteractive:false },
+        sprite : { spriteName : "", color : "", alpha : 1, width : 0, height : 0, isInteractive:false },
         nineSlice : {spriteName : "", border:{l:0,t:0,r:0,b:0},width:0,height:0,  alpha : 1, color : "", isInteractive:false},
         tilingSprite : {spriteName : "", width:0,height:0,  alpha : 1, color : "", isInteractive:false},
         button : {normal:"", over:"", push:"", disabled:""},
@@ -89,7 +89,7 @@ Red.Layout = (function ()
         {
             this.animation.update( delta );
         },
-        
+
         invokeEvent : function (eventName, parameter)
         {
             for(var i = 0; i < this.aniEventCall.length; i++)
@@ -106,7 +106,17 @@ Red.Layout = (function ()
 
             if( data.sprite )
             {
-                con = this.game.factory.sprite( data.localPosition.x, data.localPosition.y, data.sprite.spriteName, root );
+                if( data.sprite.spriteName === "null" )
+                {
+                    con = this.game.factory.sprite( data.localPosition.x, data.localPosition.y, PIXI.Texture.WHITE , root );
+                    con.width = data.sprite.width;
+                    con.height = data.sprite.height;
+                }
+                else
+                {
+                    con = this.game.factory.sprite( data.localPosition.x, data.localPosition.y, data.sprite.spriteName, root );
+                }
+
                 if(data.sprite.color)
                 {
                     con.tint = parseInt( data.sprite.color);
