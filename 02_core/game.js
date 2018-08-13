@@ -149,6 +149,9 @@ Red.Game = (function ()
         }
 
         this.stage = new PIXI.Container();
+        this.fixedBG = new PIXI.Container();
+        this.stage.addChild( this.fixedBG );
+
         this.isDebug = false;
 
         this.world = new Red.World();

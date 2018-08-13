@@ -17,6 +17,16 @@ Red.SoundManager = (function ()
             this.sounds[key] = sound;
         },
 
+        removeSound : function(key)
+        {
+            if( this.sounds[key] )
+            {
+                this.sounds[key].stop();
+                delete PIXI.sound._sounds[key];
+                return delete this.sounds[key];
+            }
+        },
+
         setBgmMute : function (active)
         {
             if(this.isBgmMute === active) return;

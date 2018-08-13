@@ -15,7 +15,9 @@ Red.Camera = (function ()
         this.bounds.maxX = 0;
         this.bounds.maxY = 0;
 
+        this.deltaRate = 0.24;
 
+        this.updateFunc = this._update0;
     }
 
     Camera.prototype = {
@@ -24,7 +26,31 @@ Red.Camera = (function ()
             this.game = game;
         },
 
+        setUpdate : function( type )
+        {
+            switch ( type )
+            {
+                case 0:
+                    this.updateFunc = this._update0;
+                    break;
+                default:
+                    this.updateFunc = this._update1;
+                    break;
+            }
+        },
+
+        setDeltaRate : function(rate)
+        {
+            this.deltaRate = rate;
+        },
+
         update : function (delta)
+        {
+            this.updateFunc(delta);
+        },
+
+        //왼쪽위 원점용
+        _update0 : function(delta)
         {
             if( this.target )
             {
@@ -32,10 +58,25 @@ Red.Camera = (function ()
             }
         },
 
+
+        //가운데 원점용
+        _update1 : function (delta)
+        {
+            if( this.target )
+            {
+                this.setPosition( this.target.x - this.offset.x, this.target.y - this.offset.y, delta);
+            }
+        },
+
+        initPosition : function( x, y )
+        {
+            this.position.set( x, y );
+        },
+
         setPosition : function (x, y, delta)
         {
-            this.position.x = Red.Math.Lerp(this.position.x, x, delta / 0.24);
-            this.position.y = Red.Math.Lerp(this.position.y, y, delta / 0.24);
+            this.position.x = Red.Math.Lerp(this.position.x, x, delta / this.deltaRate);
+            this.position.y = Red.Math.Lerp(this.position.y, y, delta / this.deltaRate);
             //this.position.x = x;
             //this.position.y = y;
 
