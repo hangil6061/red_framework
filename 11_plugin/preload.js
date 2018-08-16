@@ -31,24 +31,24 @@ Red.Preload = (function ()
                 call( resources );
             } );
         });
-
-        Preload.spineLoad = function (spineData, textures, call)
-        {
-            var data = spineData;
-            var atlas = new PIXI.spine.core.TextureAtlas();
-            atlas.addTextureHash(textures, true);
-
-            for( var i = 0; i < data.length; i++)
-            {
-                PIXI.loader.add(data[i].key, data[i].path,  { metadata: { spineAtlas: atlas }});
-            }
-
-            PIXI.loader.load( function (loader, resources)
-            {
-                call( resources );
-            } );
-        }
     };
+
+    Preload.spineLoad = function (spineData, textures, call)
+    {
+        var data = spineData;
+        var atlas = new PIXI.spine.core.TextureAtlas();
+        atlas.addTextureHash(textures, true);
+
+        for( var i = 0; i < data.length; i++)
+        {
+            PIXI.loader.add(data[i].key, data[i].path,  { metadata: { spineAtlas: atlas }});
+        }
+
+        PIXI.loader.load( function (loader, resources)
+        {
+            call( resources );
+        } );
+    }
 
     return Preload;
 })();
