@@ -28,8 +28,36 @@ Red.KeyCode = (function ()
     KeyCode.Num8 = 55;
     KeyCode.Num9 = 56;
 
+    KeyCode.A = 65;
+    KeyCode.B = 66;
+    KeyCode.C = 67;
+    KeyCode.D = 68;
+    KeyCode.E = 69;
+    KeyCode.F = 70;
+    KeyCode.G = 71;
+    KeyCode.H = 72;
+    KeyCode.I = 73;
+    KeyCode.J = 74;
+    KeyCode.K = 75;
+    KeyCode.L = 76;
+    KeyCode.M = 77;
+    KeyCode.N = 78;
+    KeyCode.O = 79;
+    KeyCode.P = 80;
+    KeyCode.Q = 81;
+    KeyCode.R = 82;
+    KeyCode.S = 83;
+    KeyCode.T = 84;
+    KeyCode.U = 85;
+    KeyCode.V = 86;
+    KeyCode.W = 87;
+    KeyCode.X = 88;
+    KeyCode.Y = 89;
+    KeyCode.Z = 90;
+
     KeyCode.Enter = 13;
     KeyCode.Sapce = 32;
+    KeyCode.Delete = 46;
 
 
     return KeyCode;

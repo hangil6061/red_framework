@@ -5,6 +5,7 @@ Red.Camera = (function ()
     function Camera()
     {
         this.game = null;
+        this.scale = 1;
         this.position = new PIXI.Point();
         this.target = null;
         this.offset = new PIXI.Point();
@@ -64,8 +65,13 @@ Red.Camera = (function ()
         {
             if( this.target )
             {
-                this.setPosition( this.target.x - this.offset.x, this.target.y - this.offset.y, delta);
+                this.setPosition( (this.target.x * this.scale) - this.offset.x, (this.target.y * this.scale) - this.offset.y, delta);
             }
+        },
+
+        setScale : function (scale )
+        {
+            this.scale = scale;
         },
 
         initPosition : function( x, y )

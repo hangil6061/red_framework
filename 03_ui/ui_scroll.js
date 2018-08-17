@@ -23,7 +23,7 @@ Red.Scroll = (function ()
 
         this.wheelBind = null;
         this.mouseUpBind = null;
-        
+
         this.isRectDown = false;
     }
 
@@ -118,7 +118,7 @@ Red.Scroll = (function ()
             this.game.actionsManager.addAfterRenderFunc( this.refresh.bind(this) );
         },
 
-        refresh : function ( isBottom )
+        refresh : function ( isBottom, fixed )
         {
             if( this.scrollArea.height > this.scrollRect.height )
             {
@@ -133,13 +133,16 @@ Red.Scroll = (function ()
                 this.barRect.visible = false;
             }
 
-            if( isBottom && this.scrollArea.height > this.scrollRect.height )
+            if(!fixed)
             {
-                this.scrollArea.y = this.scrollRect.bottom - this.scrollArea.height;
-            }
-            else
-            {
-                this.scrollArea.y = this.scrollRect.top;
+                if( isBottom && this.scrollArea.height > this.scrollRect.height )
+                {
+                    this.scrollArea.y = this.scrollRect.bottom - this.scrollArea.height;
+                }
+                else
+                {
+                    this.scrollArea.y = this.scrollRect.top;
+                }
             }
 
             this._updateBarRect();

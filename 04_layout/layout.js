@@ -52,6 +52,16 @@ Red.Layout = (function ()
             this.animation.create( this );
         },
 
+        start : function()
+        {
+            this.rootContainer.visible = true;
+        },
+
+        finish : function()
+        {
+            this.rootContainer.visible = false;
+        },
+
         destroy : function ()
         {
             var self = this;
