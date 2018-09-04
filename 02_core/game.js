@@ -167,6 +167,7 @@ Red.Game = (function ()
         this.debugManager = new Red.DebugManager();
         this.pointerManager = new Red.PointerManager();
         this.soundManager = new Red.SoundManager();
+        this.soundManager2 = new Red.SoundManager2();
         this.httpManager = new Red.HttpManager();
         this.keyManager = new Red.KeyManager();
         this.layoutManager = new Red.LayoutManager();

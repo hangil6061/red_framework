@@ -227,6 +227,10 @@ Red.Layout = (function ()
                     else
                     {
                         con.sprite.anchor.set( data.pivot.x, data.pivot.y );
+                        if(data.scale)
+                        {
+                            con.sprite.scale.set( data.scale.x, data.scale.y );
+                        }
                     }
 
                     con.setOffTexture( data.button.disabled );
@@ -252,6 +256,10 @@ Red.Layout = (function ()
                     else
                     {
                         con.sprite.anchor.set( data.pivot.x, data.pivot.y );
+                        if(data.scale)
+                        {
+                            con.sprite.scale.set( data.scale.x, data.scale.y );
+                        }
                     }
 
 

@@ -5,7 +5,7 @@ Red.HttpManager = (function ()
     function HttpRequest()
     {
         this.httpRequest = null;
-        this.returnCall = null;
+        // this.returnCall = null;
         this.sendTime = 0;
         this.requestCall = null;
         this.key = undefined;
@@ -56,7 +56,7 @@ Red.HttpManager = (function ()
             }
 
             this.httpRequest.open('GET', url, async, user, password );
-            this.sendTime = Date.now()
+            this.sendTime = Date.now();
             this.httpRequest.send(null);
         },
 
@@ -68,14 +68,14 @@ Red.HttpManager = (function ()
                 console.log("응답 시간 : " + tt + " ms");
                 if (this.httpRequest.status === 200)
                 {
-                    this.requestCall && this.requestCall( this.httpRequest.responseText );
+                    this.requestCall && this.requestCall( this.httpRequest.responseText, this );
                     this.requestCall = null;
                 }
                 else
                 {
                     console.log('There was a problem with the request.');
                 }
-                this.returnCall(this);
+                //this.returnCall(this);
             }
         },
     };
@@ -83,7 +83,7 @@ Red.HttpManager = (function ()
 
     function HttpManager()
     {
-        this.pool = [];
+        // this.pool = [];
         this.useObject = [];
         this.requests = {};
         this.allRequestComplateCall = null;     //인자로 this.requests 넘겨줌.
@@ -94,21 +94,14 @@ Red.HttpManager = (function ()
         //개별적으로 리퀘스트 요청
         getRequest : function (url, async, user, password, call)
         {
-            if( this.pool.length <= 0 )
-            {
-                this.pool.push( new HttpRequest());
-            }
-
-            var request = this.pool.shift();
-            request.requestCall = this._returnRequest.bind(this);
+            var request = new HttpRequest();
             request._get( url, async, user, password, call );
-            this.useObject.push( request );
         },
 
         //리퀘스트를 추가만하고 요청은 안함.
-        addRequest : function (key, url, async, user, password)
+        addRequest : function (key, url, user, password)
         {
-            this.requests[key] = ( { url:url, async:async, user:user, password:password, text:undefined, } );
+            this.requests[key] = ( { url:url, async: true, user:user, password:password, text:undefined, } );
         },
 
 
@@ -120,31 +113,19 @@ Red.HttpManager = (function ()
             var self = this;
             Object.keys(this.requests).forEach(function (key) {
 
-                if( self.pool.length <= 0 )
-                {
-                    self.pool.push( new HttpRequest());
-                }
-
                 var data =  self.requests[key];
-                var request = self.pool.shift();
-                request.returnCall = self._returnRequest_all.bind(self);
+                var request = new HttpRequest();
+                request.requestCall = self._returnRequest_all.bind(self);
                 request.key = key;
                 request._get( data.url, data.async, data.user, data.password );
                 self.useObject.push( request );
             });
         },
 
-        _returnRequest : function (request)
+        _returnRequest_all : function (text, request)
         {
             this.useObject.splice( this.useObject.indexOf(request), 1 );
-            this.pool.push( request );
-        },
-
-        _returnRequest_all : function (request)
-        {
-            this.useObject.splice( this.useObject.indexOf(request), 1 );
-            this.pool.push( request );
-            this.requests[ request.key ].text = request.httpRequest.responseText;
+            this.requests[ request.key ].text = text;
             if( this.useObject.length <= 0 )
             {
                 this.allRequestComplateCall && this.allRequestComplateCall(this.requests);
