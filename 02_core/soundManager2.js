@@ -35,7 +35,9 @@ Red.SoundManager2 = (function ()
             if(this.isBgmMute === active) return;
 
             this.isBgmMute = active;
-            if( this.isBgmMute )
+
+            if( !this.bgm ) return;
+            if( this.isBgmMute)
             {
                 this.bgm._preVolume = this.bgm.volume();
                 this.bgm.volume(0) ;

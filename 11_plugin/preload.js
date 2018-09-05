@@ -7,7 +7,7 @@ Red.Preload = (function ()
 
     }
 
-    Preload.load = function (preload, call, isSkipSpine)
+    Preload.load = function (preload, call, isSkipSpine, isHowler)
     {
         PIXI.loader.add('preload', preload);
         PIXI.loader.load(function (loader, resources)
@@ -16,6 +16,8 @@ Red.Preload = (function ()
             for( var d in data )
             {
                 if(isSkipSpine && d === 'spine') continue;
+                if(isHowler && d === 'sound') continue;
+
                 if( data.hasOwnProperty( d ) )
                 {
                     var data2 = data[d];
@@ -48,7 +50,33 @@ Red.Preload = (function ()
         {
             call( resources );
         } );
-    }
+    };
+
+    Preload.howlerLoad = function ( soundData, call )
+    {
+        var sounds = {};
+        var finishCall = function () {
+            loadCount++;
+            if( loadCount >= soundData.length )
+            {
+                call( sounds );
+            }
+        };
+
+        var loadCount = 0;
+
+        for( var i = 0; i < soundData.length; i++ )
+        {
+            var howl = new Howl({
+                src: [soundData[i].path],
+                autoplay: false,
+                loop: false,
+                volume: 1,
+                onload: finishCall,
+            });
+            sounds[ soundData[i].key ] = howl;
+        }
+    };
 
     return Preload;
 })();
