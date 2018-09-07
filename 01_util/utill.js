@@ -42,19 +42,26 @@ Red.Utill = (function ()
 
     Utill.deepCopy = function(obj)
     {
-        const ret = {};
+        let ret;
+        if( obj instanceof Array)
+        {
+            ret = []
+        }
+        else if( obj instanceof Object)
+        {
+            ret = {};
+        }
+        else
+        {
+            return obj;
+        }
+
+
         for (let i in obj)
         {
             if (obj.hasOwnProperty(i))
             {
-                if (typeof obj[i] === 'object')
-                {
-                    ret[i] = Utill.deepCopy(obj[i]);
-                }
-                else
-                {
-                    ret[i] = obj[i];
-                }
+                ret[i] = Utill.deepCopy(obj[i]);
             }
         }
         return ret;

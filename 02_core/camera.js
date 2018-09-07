@@ -103,7 +103,11 @@ Red.Camera = (function ()
             {
                 this.position.y = this.bounds.maxY;
             }
+        },
 
+        getPosition : function()
+        {
+            return this.position;
         },
 
         /**
