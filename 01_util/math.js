@@ -172,6 +172,18 @@ Red.Math = (function ()
         return true;
     };
 
+    Mathf.IntersectsBounds2 = function ( bounds1, bounds2 )
+    {
+        if (bounds1.minX > bounds2.maxX
+            || bounds1.maxX < bounds2.minX
+            || bounds1.minY > bounds2.maxY
+            || bounds1.maxY < bounds2.minY)
+        {
+            return false;
+        }
+        return true;
+    };
+
     Mathf.IntersectsBoundsToPoint = function (minX1,minY1,maxX1,maxY1, pointX, pointY)
     {
         if (minX1 > pointX
