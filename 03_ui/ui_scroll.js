@@ -112,6 +112,22 @@ Red.Scroll = (function ()
             this.scrollArea.addChild( con );
         },
 
+        addItemOffset(con, offsetX, offsetY, addHeight)
+        {
+            if (this.scrollArea.children.length === 0)
+            {
+                addHeight = 0;
+            }
+            else
+            {
+                addHeight = addHeight || 0;
+            }
+
+            con.position.x = offsetX;
+            con.position.y = this.scrollArea.height + addHeight + offsetY;
+            this.scrollArea.addChild( con );
+        },
+
         clear : function ()
         {
             this.scrollArea.children.length = 0;
