@@ -14,7 +14,7 @@ Red.Layout = (function ()
         nineSlice : {spriteName : "", border:{l:0,t:0,r:0,b:0},width:0,height:0,  alpha : 1, color : "", isInteractive:false},
         tilingSprite : {spriteName : "", width:0,height:0,  alpha : 1, color : "", isInteractive:false},
         button : {normal:"", over:"", push:"", disabled:""},
-        text : {font:"", text:"", size:0, align : "", width:0},
+        text : {font:"", text:"", size:0, align : "", width:0, isNormal : false},
         input : { placeholder : "", width : 0, height : 0, fontSize : 0,  fontColor:"", placeholderColor:"", isTextArea :false ,isPassword : false, isNumberOnly : false},
         scroll : {},
         toggleGroup : { toggles : [ {buttonName:"", onImageName:""} ], defaultIndex : 0 },
@@ -275,12 +275,24 @@ Red.Layout = (function ()
             }
             else if( data.text )
             {
+                if( data.text.isNormal )
+                {
+                    con = new PIXI.Text( data.text.text,new PIXI.TextStyle(
+                        {
+                            fontFamily : data.text.font,
+                            fontSize: data.text.size,
+                            fill:  parseInt( data.text.color),
+                        }) );
+                }
+                else
+                {
+                    var size = data.text.size * 1.15;
+                    con = new Red.BitmapText2( data.text.text, {font: size.toString() + "px " + data.text.font } );
+                    con.tint = parseInt( data.text.color);
+                }
 
-                var size = data.text.size * 1.15;
-                con = new Red.BitmapText2( data.text.text, {font: size.toString() + "px " + data.text.font } );
                 con.position.set( data.localPosition.x, data.localPosition.y );
                 con.anchor.set(data.pivot.x, data.pivot.y);
-                con.tint = parseInt( data.text.color);
 
                 if( data.text.align )
                 {
