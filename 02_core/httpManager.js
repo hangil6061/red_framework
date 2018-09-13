@@ -8,6 +8,8 @@ Red.HttpManager = (function ()
         // this.returnCall = null;
         this.sendTime = 0;
         this.requestCall = null;
+        this.errorCall = null;
+
         this.key = undefined;
 
         if (window.XMLHttpRequest)
@@ -33,7 +35,7 @@ Red.HttpManager = (function ()
          * @param call
          * @private
          */
-        _get : function ( url, async, user, password, call)
+        _get : function ( url, async, user, password, call, errorCall)
         {
             if( typeof async === "function" )
             {
@@ -55,6 +57,11 @@ Red.HttpManager = (function ()
                 this.requestCall = call;
             }
 
+            if( errorCall )
+            {
+                this.errorCall = errorCall;
+            }
+
             this.httpRequest.open('GET', url, async, user, password );
             this.sendTime = Date.now();
             this.httpRequest.send(null);
@@ -74,6 +81,8 @@ Red.HttpManager = (function ()
                 else
                 {
                     console.log('There was a problem with the request.');
+                    this.errorCall && this.errorCall( this );
+                    this.errorCall = null;
                 }
                 //this.returnCall(this);
             }
@@ -87,15 +96,16 @@ Red.HttpManager = (function ()
         this.useObject = [];
         this.requests = {};
         this.allRequestComplateCall = null;     //인자로 this.requests 넘겨줌.
+        this.allRequestComplateErrorCall = null;
     }
 
     HttpManager.prototype = {
 
         //개별적으로 리퀘스트 요청
-        getRequest : function (url, async, user, password, call)
+        getRequest : function (url, async, user, password, call, errorCall)
         {
             var request = new HttpRequest();
-            request._get( url, async, user, password, call );
+            request._get( url, async, user, password, call, errorCall );
         },
 
         //리퀘스트를 추가만하고 요청은 안함.
@@ -106,9 +116,10 @@ Red.HttpManager = (function ()
 
 
         //addRequest 함수로 추가했던 모든 리퀘스트를 동시에 요청. 끝나면 call 호출함.
-        startRequest : function (call)
+        startRequest : function (call, errorCall)
         {
             this.allRequestComplateCall = call;
+            this.allRequestComplateErrorCall = errorCall;
 
             var self = this;
             Object.keys(this.requests).forEach(function (key) {
@@ -116,6 +127,8 @@ Red.HttpManager = (function ()
                 var data =  self.requests[key];
                 var request = new HttpRequest();
                 request.requestCall = self._returnRequest_all.bind(self);
+                request.errorCall = self._returnError_all.bind(self);
+
                 request.key = key;
                 request._get( data.url, data.async, data.user, data.password );
                 self.useObject.push( request );
@@ -131,6 +144,15 @@ Red.HttpManager = (function ()
                 this.allRequestComplateCall && this.allRequestComplateCall(this.requests);
             }
         },
+
+        _returnError_all : function ( request )
+        {
+            this.useObject.splice( this.useObject.indexOf(request), 1 );
+            if( this.useObject.length <= 0 )
+            {
+                this.allRequestComplateErrorCall && this.allRequestComplateErrorCall(this.requests);
+            }
+        }
     };
 
     return HttpManager;

@@ -25,6 +25,8 @@ Red.Scroll = (function ()
         this.mouseUpBind = null;
 
         this.isRectDown = false;
+
+        this.moveCall = null;
     }
 
     Scroll.prototype = {
@@ -106,6 +108,22 @@ Red.Scroll = (function ()
             else
             {
                 addHeight = addHeight || 0;
+            }
+
+            con.position.y = this.scrollArea.height + addHeight;
+            this.scrollArea.addChild( con );
+        },
+
+        addItemFirstHeight(con, firstHeight, addHeight)
+        {
+            if (this.scrollArea.children.length === 0)
+            {
+                addHeight = firstHeight || 0;
+            }
+            else
+            {
+                firstHeight = firstHeight || 0;
+                addHeight = (addHeight || 0) + firstHeight;
             }
 
             con.position.y = this.scrollArea.height + addHeight;
@@ -194,6 +212,7 @@ Red.Scroll = (function ()
                 }
 
                 this._updateBarRect();
+                this.moveCall && this.moveCall( this.scrollArea.y, this.scrollArea.height, this.scrollRect.height );
             }
         },
 
@@ -238,42 +257,44 @@ Red.Scroll = (function ()
 
         _onMove : function (e)
         {
-            if( this.scrollArea.height <= this.scrollRect.height ) return;
+            if (this.scrollArea.height <= this.scrollRect.height) return;
 
-            if( this.isMouseDown )
+            if (this.isMouseDown)
+            {
+                var moveY = e.data.global.y - this.preMousePos.y;
+                if (this.isRectDown)
                 {
-                    var moveY = e.data.global.y - this.preMousePos.y;
-                    if(this.isRectDown)
+                    moveY *= -1;
+                }
+
+                if (moveY < 0)
+                {
+                    //아래로
+
+                    this.scrollArea.y += moveY;
+
+                    if (this.scrollArea.y + this.scrollArea.height < this.scrollRect.bottom)
                     {
-                        moveY *= -1;
+                        this.scrollArea.y = this.scrollRect.bottom - this.scrollArea.height;
                     }
+                }
+                else
+                {
+                    //위로
 
-                    if( moveY < 0 )
+                    this.scrollArea.y += moveY;
+                    if (this.scrollArea.y > this.scrollRect.top)
                     {
-                        //아래로
-
-                        this.scrollArea.y += moveY;
-
-                        if( this.scrollArea.y + this.scrollArea.height < this.scrollRect.bottom )
-                        {
-                            this.scrollArea.y = this.scrollRect.bottom - this.scrollArea.height;
-                        }
+                        this.scrollArea.y = this.scrollRect.top;
                     }
-                    else
-                    {
-                        //위로
-
-                        this.scrollArea.y += moveY;
-                        if( this.scrollArea.y >  this.scrollRect.top  )
-                        {
-                            this.scrollArea.y = this.scrollRect.top;
-                        }
-                    }
-                    this._updateBarRect();
+                }
+                this._updateBarRect();
 
 
                 this.preMousePos.x = e.data.global.x;
                 this.preMousePos.y = e.data.global.y;
+
+                this.moveCall && this.moveCall( this.scrollArea.y, this.scrollArea.height, this.scrollRect.height );
             }
         },
     };

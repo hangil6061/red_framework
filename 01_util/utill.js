@@ -125,5 +125,22 @@ Red.Utill = (function ()
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
+
+    /**
+     * 입력받은 파라미터를 이름으로 검색해서 반환해줌.
+     * @param name
+     * @returns {string}
+     */
+    Utill.getParameterByName = function(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    };
+
+    Utill.clearParameter = function () {
+        history.replaceState({}, null, location.pathname);
+    };
+
     return Utill;
 })();

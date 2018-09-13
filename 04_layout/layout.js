@@ -277,6 +277,7 @@ Red.Layout = (function ()
             {
                 if( data.text.isNormal )
                 {
+                    var size = data.text.size * 1.15;
                     con = new PIXI.Text( data.text.text,new PIXI.TextStyle(
                         {
                             fontFamily : data.text.font,
