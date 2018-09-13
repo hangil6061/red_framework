@@ -71,6 +71,15 @@ Red.SceneManager = (function ()
             }
         },
 
+        addScene : function (sceneName, scene)
+        {
+            this.scenes[sceneName] = scene;
+            if( scene.create )
+            {
+                scene.create();
+            }
+        },
+
         changeScene : function (sceneName)
         {
             if( this.currentScene.finish )
