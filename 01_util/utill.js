@@ -142,5 +142,21 @@ Red.Utill = (function ()
         history.replaceState({}, null, location.pathname);
     };
 
+    // Utill.isInt = function (v) {
+    //     var reg = /^(\s|\d)+$/;
+    //     return reg.test(v);
+    // };
+
+    Utill.isNumber = function (num)
+    {
+        if( num === null
+            || num === ''
+            || num === ' '
+            || num === true
+            || num === false
+        ) return false;
+        return !isNaN( num );
+    };
+
     return Utill;
 })();

@@ -62,6 +62,9 @@ Red.SceneManager = (function ()
             }
         },
 
+        /**
+         * @deprecated Use addScene instead.
+         */
         addScne : function (sceneName, scene)
         {
             this.scenes[sceneName] = scene;

@@ -59,6 +59,21 @@ Red.Math = (function ()
         return  min + Math.random() * (max - min);
     };
 
+    Mathf.Shuffle = function( arr, max, startIdx )
+    {
+        startIdx = startIdx || 0;
+
+        for( var i = 0;i < max; i++ )
+        {
+            var src = Mathf.RandomInt( startIdx, arr.length );
+            var dst = Mathf.RandomInt( startIdx, arr.length );
+            var temp = arr[src];
+            arr[src] = arr[dst];
+            arr[dst] = temp;
+        }
+        return arr;
+    };
+
     /**
      *
      * @param a {Red.Vector2} or { x , y }
