@@ -35,7 +35,7 @@ Red.HttpManager = (function ()
          * @param call
          * @private
          */
-        _get : function ( url, async, user, password, call, errorCall)
+        _get : function ( url, async, user, password, call, errorCall, withCredentials)
         {
             if( typeof async === "function" )
             {
@@ -63,6 +63,7 @@ Red.HttpManager = (function ()
             }
 
             this.httpRequest.open('GET', url, async, user, password );
+            this.httpRequest.withCredentials = withCredentials || false;
             this.sendTime = Date.now();
             this.httpRequest.send(null);
         },
@@ -102,16 +103,16 @@ Red.HttpManager = (function ()
     HttpManager.prototype = {
 
         //개별적으로 리퀘스트 요청
-        getRequest : function (url, async, user, password, call, errorCall)
+        getRequest : function (url, async, user, password, call, errorCall, withCredentials)
         {
             var request = new HttpRequest();
-            request._get( url, async, user, password, call, errorCall );
+            request._get( url, async, user, password, call, errorCall, withCredentials );
         },
 
         //리퀘스트를 추가만하고 요청은 안함.
-        addRequest : function (key, url, user, password)
+        addRequest : function (key, url, user, password, withCredentials)
         {
-            this.requests[key] = ( { url:url, async: true, user:user, password:password, text:undefined, } );
+            this.requests[key] = ( { url:url, async: true, user:user, password:password, text:undefined, withCredentials : withCredentials } );
         },
 
 
@@ -130,7 +131,7 @@ Red.HttpManager = (function ()
                 request.errorCall = self._returnError_all.bind(self);
 
                 request.key = key;
-                request._get( data.url, data.async, data.user, data.password );
+                request._get( data.url, data.async, data.user, data.password, data.withCredentials );
                 self.useObject.push( request );
             });
         },
