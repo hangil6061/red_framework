@@ -131,7 +131,7 @@ Red.HttpManager = (function ()
                 request.errorCall = self._returnError_all.bind(self);
 
                 request.key = key;
-                request._get( data.url, data.async, data.user, data.password, data.withCredentials );
+                request._get( data.url, data.async, data.user, data.password, undefined, undefined, data.withCredentials );
                 self.useObject.push( request );
             });
         },
