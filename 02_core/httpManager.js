@@ -101,6 +101,10 @@ Red.HttpManager = (function ()
     }
 
     HttpManager.prototype = {
+        clear : function()
+        {
+            this.requests = {};
+        },
 
         //개별적으로 리퀘스트 요청
         getRequest : function (url, async, user, password, call, errorCall, withCredentials)
