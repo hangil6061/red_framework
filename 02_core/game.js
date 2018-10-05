@@ -63,6 +63,7 @@ Red.Game = (function ()
         this.resizeType = config.resizeType;
 
         document.body.style.margin = '0';
+        document.body.style.overflow = 'hidden';
 
         const maxWidth = config.maxWidth;
         const maxHeight = config.maxHeight;
@@ -141,7 +142,7 @@ Red.Game = (function ()
         // this.pixi.renderer.roundPixels = true;
         // this.pixi.renderer.forceFXAA = true;
 
-        if( window.Stats )
+        if( window.Stats && config.isStats )
         {
             this.stats = new window.Stats();
             this.stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
