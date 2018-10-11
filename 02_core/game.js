@@ -24,9 +24,11 @@ Red.Game = (function ()
     var viewHeight = 0;
 
     var resizeEvent = null;
+    var focusEvent = null;
 
     Red.SYSTEMEVENT = {
         OnWindowResize : "OnWindowResize",
+        OnChangesFocus : "OnChangesFocus"
     };
 
     var resizeFunc = {};
@@ -189,10 +191,19 @@ Red.Game = (function ()
         document.body.appendChild( view );
 
         resizeEvent = this.signalManager.addSignal(Red.SYSTEMEVENT.OnWindowResize);
+        focusEvent = this.signalManager.addSignal(Red.SYSTEMEVENT.OnChangesFocus);
 
         resizeFunc[this.resizeType]();
         window.onorientationchange = resizeFunc[this.resizeType];
         window.onresize = resizeFunc[this.resizeType];
+
+        window.addEventListener( 'focus', function () {
+            focusEvent.dispatch(true);
+        } );
+
+        window.addEventListener( 'blur', function () {
+            focusEvent.dispatch(false);
+        } );
 
         this.requestFullScreen = requestFullScreen;
 
