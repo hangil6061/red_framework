@@ -76,6 +76,11 @@ Red.Preload = (function ()
             });
             sounds[ soundData[i].key ] = howl;
         }
+
+        if( soundData.length <= 0 )
+        {
+            call( sounds );
+        }
     };
 
     return Preload;
