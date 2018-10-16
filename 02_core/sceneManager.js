@@ -5,6 +5,8 @@ Red.SceneManager = (function ()
     function SceneManager()
     {
         this.scenes = [];
+        this.preSceneName = '';
+        this.crtSceneName = '';
         this.currentScene = {};
         this.keyManager = null;
     }
@@ -90,7 +92,9 @@ Red.SceneManager = (function ()
                 this.currentScene.finish();
             }
 
+            this.preSceneName = this.crtSceneName;
             this.currentScene = this.scenes[sceneName];
+            this.crtSceneName = sceneName;
 
             if( this.currentScene.start )
             {
