@@ -27,6 +27,20 @@ Red.Tween = (function ()
         },
     };
 
+    Tween.Twinkle = {
+        Toggle : function (k, n, to1, to2) {
+
+            for( var i = 1; i <= n; i++ )
+            {
+                if( k < i / n )
+                {
+                    return i % 2 === 0 ? to1 : to2;
+                }
+            }
+            return to2;
+        },
+    };
+
     Tween.Quadratic = {
         In: function (k)
         {
