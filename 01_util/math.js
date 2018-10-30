@@ -39,6 +39,10 @@ Red.Math = (function ()
         const g = Mathf.Lerp( g1, g2, t );
         const b = Mathf.Lerp( b1, b2, t );
 
+        return Mathf.RgbToColor( r, g, b );
+    };
+
+    Mathf.RgbToColor = function( r, g, b ) {
         return (r << 16) + (g << 8) +  (b);
     };
 
