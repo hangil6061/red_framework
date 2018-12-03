@@ -53,6 +53,10 @@ Red.Game = (function ()
         config.minHeight = config.minHeight || config.height;
         config.responsiveType = config.responsiveType || Red.RESPONSIVETYPE.ALL_INC;
 
+        if( config.skipSayHello ) {
+            PIXI.utils.skipHello();
+        }
+
         // Red.game = this;
 
         this.width = config.width;
