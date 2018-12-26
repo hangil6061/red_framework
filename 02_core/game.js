@@ -200,7 +200,10 @@ Red.Game = (function ()
 
         resizeFunc[this.resizeType]();
         window.onorientationchange = resizeFunc[this.resizeType];
-        window.onresize = resizeFunc[this.resizeType];
+        // window.onresize = resizeFunc[this.resizeType];
+        window.addEventListener( 'resize', (function () {
+            resizeFunc[this.resizeType]();
+        }).bind(this) );
 
         window.addEventListener( 'focus', function () {
             focusEvent.dispatch(true);
@@ -280,8 +283,8 @@ Red.Game = (function ()
 
         //가운데 정렬
         view.style.left = '50%';
-        view.style.top = '50%';
-        view.style.transform = 'translate3d( -50%, -50%, 0 )';
+        // view.style.top = '50%';
+        view.style.transform = 'translate3d( -50%, 0, 0 )';
 
         view.style.width = innerWidth + 'px';
         view.style.height = innerHeight + 'px';
