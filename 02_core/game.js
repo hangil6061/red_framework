@@ -279,9 +279,11 @@ Red.Game = (function ()
         this.renderer.resize( this.width - 1, this.height );
 
         //가운데 정렬
-        view.style.left = '50%';
-        view.style.top = '50%';
-        view.style.transform = 'translate3d( -50%, -50%, 0 )';
+        //
+        view.style.left = Math.floor((window.innerWidth - innerWidth) / 2) + 'px';
+        view.style.top = Math.floor((window.innerHeight - innerHeight) / 2) + 'px';
+        // view.style.top = '50%';
+        // view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
         view.style.width = innerWidth + 'px';
         view.style.height = innerHeight + 'px';
@@ -316,9 +318,12 @@ Red.Game = (function ()
         }
 
         //가운데 정렬
-        view.style.left = '50%';
-        view.style.top = '50%';
-        view.style.transform = 'translate3d( -50%, -50%, 0 )';
+        view.style.left = Math.floor((window.innerWidth - viewWidth) / 2) + 'px';
+        view.style.top = Math.floor((window.innerHeight - viewHeight) / 2) + 'px';
+
+        // view.style.left = '50%';
+        // view.style.top = '50%';
+        // view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
         view.style.width = viewWidth + 'px';
         view.style.height = viewHeight + 'px';

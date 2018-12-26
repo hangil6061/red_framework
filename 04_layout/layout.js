@@ -179,9 +179,9 @@ Red.Layout = (function ()
             else if( data.tilingSprite )
             {
                 con = new PIXI.extras.TilingSprite( PIXI.Texture.fromImage( data.tilingSprite.spriteName )
-                    , data.width, data.height );
+                    ,data.tilingSprite.width, data.tilingSprite.height );
                 con.position.set( data.localPosition.x,data.localPosition.y);
-                con.pivot.set( data.pivot.x, data.pivot.y );
+                //con.anchor.set( data.pivot.x, data.pivot.y );
 
                 if(data.tilingSprite.color)
                 {

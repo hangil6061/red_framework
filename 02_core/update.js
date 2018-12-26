@@ -91,6 +91,15 @@ Red.Update = (function ()
 
                 time.lastFixedTime = curTime - fixedDelta;
             }
+            else
+            {
+                var fixedTime = time.fixedTime * 0.001 * time.timeScale;
+                for (i = 0; i < len; i++)
+                {
+                    updateCache[i](fixedTime);
+                }
+                time.lastFixedTime = curTime;
+            }
 
             updateCache = self.preUpdate;
             len = updateCache.length;
