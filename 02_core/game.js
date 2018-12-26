@@ -53,6 +53,10 @@ Red.Game = (function ()
         config.minHeight = config.minHeight || config.height;
         config.responsiveType = config.responsiveType || Red.RESPONSIVETYPE.ALL_INC;
 
+        if( config.skipSayHello ) {
+            PIXI.utils.skipHello();
+        }
+
         // Red.game = this;
 
         this.width = config.width;
@@ -200,7 +204,10 @@ Red.Game = (function ()
 
         resizeFunc[this.resizeType]();
         window.onorientationchange = resizeFunc[this.resizeType];
-        window.onresize = resizeFunc[this.resizeType];
+        // window.onresize = resizeFunc[this.resizeType];
+        window.addEventListener( 'resize', (function () {
+            resizeFunc[this.resizeType]();
+        }).bind(this) );
 
         window.addEventListener( 'focus', function () {
             focusEvent.dispatch(true);

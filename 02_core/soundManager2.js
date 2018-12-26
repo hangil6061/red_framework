@@ -123,6 +123,29 @@ Red.SoundManager2 = (function ()
             }
         },
 
+        playSoundFade : function(key, volume, fadeTime, loop, call )
+        {
+            fadeTime = fadeTime || 500;
+            volume = volume || 1;
+            loop = loop || false;
+
+
+            var sound = this.sounds[key];
+
+            if( sound && !this.isEFFMute)
+            {
+                sound.volume(0);
+                sound.loop(loop);
+                sound.play();
+                sound.fade( 0, volume, fadeTime );
+
+                if( call )
+                {
+                    sound.once('load', call);
+                }
+            }
+        },
+
         stopSound : function (key)
         {
             var sound = this.sounds[key];
@@ -130,6 +153,15 @@ Red.SoundManager2 = (function ()
             {
                 sound.stop();
             }
+        },
+
+        stopSoundFade : function (key, fadeTime)
+        {
+            fadeTime = fadeTime || 500;
+
+            var sound = this.sounds[key];
+            sound.once( 'fade', () => { sound.stop(); } );
+            sound.fade( sound.volume(), 0, fadeTime );
         },
 
         isPlaySound : function (key)
