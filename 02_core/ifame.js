@@ -16,6 +16,8 @@ Red.IFrame = (function ()
         gameReady : '@gameReady',
         updateScore : '@updateScore',
         gameOver : '@gameOver',
+        gamePause : '@gamePause',
+        gameResume : '@gameResume',
 
         leftArrowDown : '@leftArrowDown',
         leftArrowUp : '@leftArrowUp',

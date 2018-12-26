@@ -75,7 +75,10 @@ Red.Utill = (function ()
     */
     Utill.localSave = function (key, str)
     {
-        localStorage.setItem(key, str);
+        if( localStorage ) {
+            localStorage.setItem(key, str);
+        }
+
     };
 
     /**
@@ -84,7 +87,10 @@ Red.Utill = (function ()
      */
     Utill.localLoad = function (key)
     {
-        return localStorage.getItem(key)
+        if( localStorage ) {
+            return localStorage.getItem(key)
+        }
+        return null;
     };
 
     /**

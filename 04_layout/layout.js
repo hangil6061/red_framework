@@ -345,6 +345,7 @@ Red.Layout = (function ()
                 con = new PIXI.Container();
                 root.addChild(con);
                 con.position.set( data.localPosition.x, data.localPosition.y );
+                con.scale.set( data.scale.x, data.scale.y );
 
                 if( data.scroll )
                 {
