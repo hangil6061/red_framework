@@ -18,6 +18,8 @@ Red.IFrame = (function ()
         gameOver : '@gameOver',
         gamePause : '@gamePause',
         gameResume : '@gameResume',
+        soundOn : '@soundOn',
+        soundOff : '@soundOff',
 
         leftArrowDown : '@leftArrowDown',
         leftArrowUp : '@leftArrowUp',
