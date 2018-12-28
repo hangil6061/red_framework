@@ -81,8 +81,13 @@ Red.Camera = (function ()
 
         setPosition : function (x, y, delta)
         {
-            this.position.x = Red.Math.Lerp(this.position.x, x, delta / this.deltaRate);
-            this.position.y = Red.Math.Lerp(this.position.y, y, delta / this.deltaRate);
+            var t = delta / this.deltaRate;
+            if( t > 1 ) {
+                t = 1;
+            }
+
+            this.position.x = Red.Math.Lerp(this.position.x, x, t);
+            this.position.y = Red.Math.Lerp(this.position.y, y, t);
             //this.position.x = x;
             //this.position.y = y;
 
