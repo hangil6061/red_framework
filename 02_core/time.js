@@ -4,7 +4,7 @@ Red.Time = (function ()
 {
     function Time()
     {
-        this.fixedTime = 1000 / 50;
+        this.fixedTime = 1000 / 60;
         this.lastFixedTime = Date.now();
         this.deltaTime = 0;
         this.lastTime = Date.now();
@@ -15,6 +15,6 @@ Red.Time = (function ()
 
         this.timeScale = 1;
     }
-    
+
     return Time;
 })();

@@ -17,6 +17,7 @@ Red.Vector2 = (function ()
         {
             this.x = x || 0;
             this.y = y || 0;
+            return this;
         },
         negative : function ()
         {
