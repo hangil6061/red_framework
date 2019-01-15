@@ -391,6 +391,10 @@ Red.Math = (function ()
         point.y = y;
         return point;
     };
+    
+    Mathf.SafeDivision = function( a, b ) {
+        return b === 0 ? 0 : a / b;
+    };
 
     return Mathf;
 })();
