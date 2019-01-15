@@ -145,7 +145,7 @@ Red.Math = (function ()
         {
             point1 = {x: point1, y: point2};
             point2 = {x: point3, y: point4};
-            point3 = {x: x3, y: y4};
+            point3 = {x: x3, y: y3};
             point4 = {x: x4, y: y4};
         }
 
@@ -170,9 +170,62 @@ Red.Math = (function ()
             // console.log(point1.x.toFixed(3) + "\n" + point1.y.toFixed(3) + "\n" + point2.x.toFixed(3) + "\n" + point2.y.toFixed(3) );
             // console.log(point3.x.toFixed(3) + "\n" + point3.y.toFixed(3) + "\n" + point4.x.toFixed(3) + "\n" + point4.y.toFixed(3) );
             // console.log(den.toFixed(3) + "\n" + ua.toFixed(3) + "\n" + ub.toFixed(3) );
-            return den;
+            return ub;
         }
         else return 0;
+    };
+
+    Mathf.LineToLine = function( a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y)
+    {
+        const v3x_ = a1x - b1x;
+        const v3y_ = a1y - b1y;
+
+        const v2x = b2x - b1x;
+        const v2y = b2y - b1y;
+        const v1x = a2x - a1x;
+        const v1y = a2y - a1y;
+
+        //오른쪽면만 검사
+        const den = v2y * v1x - v2x * v1y;
+        if (den < 0)
+        {
+            return null;
+        }
+        const t = (v2x * v3y_ - v2y * v3x_) / den;
+        const t_ = (v1x * v3y_ - v1y * v3x_) / den;
+
+        //오른쪽 왼쪽 둘다 검사
+        // const t = (v3x * v2y - v3y * v2x) / (v1x * v2y - v1y * v2x);
+        // const t_ = (v3x_ * v1y - v3y_ * v1x) / (v2x * v1y - v2y * v1x);
+
+        if( t>=0 && t<=1 && t_>=0 && t_<=1)
+        {
+            const ipx = a1x + v1x * t;
+            const ipy = a1y + v1y * t;
+
+            //  v - 2( v . n )n
+            const l1 = (v1x !== 0 || v1y !== 0) ? 1 / Math.sqrt( v1x * v1x + v1y * v1y ) : 0;
+            const l2 = (v2x !== 0 || v2y !== 0) ? 1 / Math.sqrt( v2x * v2x + v2y * v2y ) : 0;
+            const vx = v1x * l1;
+            const vy = v1y * l1;
+            const lx = v2y * l2;
+            const ly = -v2x * l2;
+
+            const dot = ( vx * lx + vy * ly );
+            const reflectX = vx - ( lx * dot * 2 );
+            const reflectY = vy - ( ly * dot * 2 );
+
+            return {
+                x : ipx,
+                y : ipy,
+                t : t,
+                rx : reflectX,
+                ry : reflectY
+            };
+        }
+        else {
+            return null;
+        }
     };
 
     Mathf.IntersectsBounds = function (minX1,minY1,maxX1,maxY1, minX2,minY2,maxX2,maxY2)
