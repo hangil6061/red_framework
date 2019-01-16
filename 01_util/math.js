@@ -191,7 +191,7 @@ Red.Math = (function ()
 
         //오른쪽면만 검사
         const den = v2y * v1x - v2x * v1y;
-        if (den < 0)
+        if (den <= 0)
         {
             return null;
         }
@@ -391,7 +391,7 @@ Red.Math = (function ()
         point.y = y;
         return point;
     };
-    
+
     Mathf.SafeDivision = function( a, b ) {
         return b === 0 ? 0 : a / b;
     };
